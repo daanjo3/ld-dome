@@ -1,0 +1,14 @@
+{
+    "@context": {
+        "label": "http://www.w3.org/2000/01/rdf-schema#label",
+        "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+        "last_updated": "http://www.kadjanderman.com/ontology/property/last_updated",
+        "last_changed": "http://www.kadjanderman.com/ontology/property/last_changed"
+    },
+    "@type": "http://www.kadjanderman.com/ontology/class/Property",
+    "@id": "media_player.living_room_tv.state",
+    "label": "media_player.living_room_tv.state",
+    "value": "playing",
+    "last_updated": "2019-05-01T19:30:40.891117+00:00",
+    "last_changed": "2019-05-01T19:30:38.811950+00:00"
+}

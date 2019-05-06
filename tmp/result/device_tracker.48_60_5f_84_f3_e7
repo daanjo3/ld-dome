@@ -1,0 +1,17 @@
+{
+  "last_updated": "2019-04-17T08:04:10.007973+00:00",
+  "entity_id": "device_tracker.48_60_5f_84_f3_e7",
+  "context": {
+    "user_id": null,
+    "parent_id": null,
+    "id": "cce0e18393894c08ad133dd8d576a664"
+  },
+  "attributes": {
+    "friendly_name": "Janine",
+    "ip": "192.168.1.103",
+    "source_type": "router",
+    "scanner": "NmapDeviceScanner"
+  },
+  "last_changed": "2019-04-17T08:04:10.007973+00:00",
+  "state": "not_home"
+}

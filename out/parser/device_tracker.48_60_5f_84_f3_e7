@@ -1,0 +1,11 @@
+{
+    "@context": {
+        "label": "http://www.w3.org/2000/01/rdf-schema#label",
+        "actuates": "http://www.kadjanderman.com/ontology/property/actuates",
+        "observes": "http://www.kadjanderman.com/ontology/property/observes"
+    },
+    "@type": "http://www.kadjanderman.com/ontology/class/Device",
+    "@id": "device_tracker.48_60_5f_84_f3_e7",
+    "label": "Janine",
+    "observes": "device_tracker.48_60_5f_84_f3_e7.state"
+}

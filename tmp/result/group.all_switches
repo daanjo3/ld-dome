@@ -1,0 +1,21 @@
+{
+  "last_updated": "2019-04-18T10:56:44.624001+00:00",
+  "entity_id": "group.all_switches",
+  "context": {
+    "user_id": null,
+    "parent_id": null,
+    "id": "cd2c7823a52c44fe911a62876b8ad585"
+  },
+  "attributes": {
+    "friendly_name": "all switches",
+    "order": 1,
+    "entity_id": [
+      "switch.sonoff_2",
+      "switch.sonoff"
+    ],
+    "hidden": true,
+    "auto": true
+  },
+  "last_changed": "2019-04-18T10:56:44.624001+00:00",
+  "state": "off"
+}

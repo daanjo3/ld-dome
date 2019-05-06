@@ -1,0 +1,18 @@
+{
+  "last_updated": "2019-04-28T09:46:35.040172+00:00",
+  "entity_id": "person.janine",
+  "context": {
+    "user_id": null,
+    "parent_id": null,
+    "id": "bed7cb5e454948199ffca3e013e3478b"
+  },
+  "attributes": {
+    "user_id": "a683ed13e94e4e6f8200578e185444b6",
+    "id": "62bd68c549fb4ebf96b5474384d8f066",
+    "editable": true,
+    "source": "device_tracker.48_60_5f_84_f3_e7",
+    "friendly_name": "Janine"
+  },
+  "last_changed": "2019-04-28T09:46:35.040172+00:00",
+  "state": "not_home"
+}

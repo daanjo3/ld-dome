@@ -1,0 +1,14 @@
+{
+    "@context": {
+        "label": "http://www.w3.org/2000/01/rdf-schema#label",
+        "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#value",
+        "last_updated": "http://www.kadjanderman.com/ontology/property/last_updated",
+        "last_changed": "http://www.kadjanderman.com/ontology/property/last_changed"
+    },
+    "@type": "http://www.kadjanderman.com/ontology/class/Property",
+    "@id": "sensor.sonoff_status.state",
+    "label": "sensor.sonoff_status.state",
+    "value": "100",
+    "last_updated": "2019-05-01T19:33:29.886726+00:00",
+    "last_changed": "2019-05-01T18:28:27.182370+00:00"
+}

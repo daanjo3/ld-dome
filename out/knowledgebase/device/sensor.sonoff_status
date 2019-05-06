@@ -1,0 +1,11 @@
+{
+    "@context": {
+        "label": "http://www.w3.org/2000/01/rdf-schema#label",
+        "actuates": "http://www.kadjanderman.com/ontology/property/actuates",
+        "observes": "http://www.kadjanderman.com/ontology/property/observes"
+    },
+    "@type": "http://www.kadjanderman.com/ontology/class/Device",
+    "@id": "sensor.sonoff_status",
+    "label": "Nachtlamp status",
+    "observes": "sensor.sonoff_status.state"
+}

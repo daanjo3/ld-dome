@@ -1,0 +1,22 @@
+{
+  "last_updated": "2019-04-18T13:59:30.009822+00:00",
+  "entity_id": "sun.sun",
+  "context": {
+    "user_id": null,
+    "parent_id": null,
+    "id": "26b64c3be41040e5902a2b80a68e4931"
+  },
+  "attributes": {
+    "elevation": 40.62,
+    "next_setting": "2019-04-18T18:40:54+00:00",
+    "next_dusk": "2019-04-18T19:16:47+00:00",
+    "next_dawn": "2019-04-19T04:01:44+00:00",
+    "next_midnight": "2019-04-18T23:40:05+00:00",
+    "next_rising": "2019-04-19T04:37:47+00:00",
+    "azimuth": 227.59,
+    "friendly_name": "Sun",
+    "next_noon": "2019-04-19T11:40:11+00:00"
+  },
+  "last_changed": "2019-04-18T04:39:56.017546+00:00",
+  "state": "above_horizon"
+}

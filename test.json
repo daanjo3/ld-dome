@@ -1,0 +1,338 @@
+[
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/sensor.sonoff_status",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Device"
+    ],
+    "http://www.kadjanderman.com/ontology/property/observes": [
+      {
+        "@value": "sensor.sonoff_status.state"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Nachtlamp status"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/sensor.alarmtrigger.state",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Property"
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_changed": [
+      {
+        "@value": "2019-04-17T06:30:02.318077+00:00"
+      }
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_updated": [
+      {
+        "@value": "2019-04-17T06:30:02.318077+00:00"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "activated"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "sensor.alarmtrigger.state"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/device_tracker.48_60_5f_84_f3_e7",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Device"
+    ],
+    "http://www.kadjanderman.com/ontology/property/observes": [
+      {
+        "@value": "device_tracker.48_60_5f_84_f3_e7.state"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Janine"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/switch.sonoff_2",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Device"
+    ],
+    "http://www.kadjanderman.com/ontology/property/actuates": [
+      {
+        "@value": "switch.sonoff_2.state"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Kamerlamp"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/switch.sonoff",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Device"
+    ],
+    "http://www.kadjanderman.com/ontology/property/actuates": [
+      {
+        "@value": "switch.sonoff.state"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Nachtlamp"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/media_player.living_room_tv.state",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Property"
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_changed": [
+      {
+        "@value": "2019-05-01T19:30:38.811950+00:00"
+      }
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_updated": [
+      {
+        "@value": "2019-05-01T19:30:40.891117+00:00"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "playing"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "media_player.living_room_tv.state"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/media_player.living_room_tv",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Device"
+    ],
+    "http://www.kadjanderman.com/ontology/property/actuates": [
+      {
+        "@value": "media_player.living_room_tv.state"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Lucifer ChromeCast"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/device_tracker.donkermobile",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Device"
+    ],
+    "http://www.kadjanderman.com/ontology/property/observes": [
+      {
+        "@value": "device_tracker.donkermobile.state"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Daan"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/sensor.sonoff_status_2",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Device"
+    ],
+    "http://www.kadjanderman.com/ontology/property/observes": [
+      {
+        "@value": "sensor.sonoff_status_2.state"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "Kamerlamp status"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/device_tracker.donkermobile.state",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Property"
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_changed": [
+      {
+        "@value": "2019-04-23T16:57:30.012672+00:00"
+      }
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_updated": [
+      {
+        "@value": "2019-04-23T16:57:30.012672+00:00"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "not_home"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "device_tracker.donkermobile.state"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/sensor.sonoff_status.state",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Property"
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_changed": [
+      {
+        "@value": "2019-05-01T18:28:27.182370+00:00"
+      }
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_updated": [
+      {
+        "@value": "2019-05-01T19:33:29.886726+00:00"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "100"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "sensor.sonoff_status.state"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/sensor.sonoff_status_2.state",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Property"
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_changed": [
+      {
+        "@value": "2019-05-01T19:30:53.447867+00:00"
+      }
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_updated": [
+      {
+        "@value": "2019-05-01T19:30:53.447867+00:00"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "88"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "sensor.sonoff_status_2.state"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/sensor.alarmtrigger",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Device"
+    ],
+    "http://www.kadjanderman.com/ontology/property/observes": [
+      {
+        "@value": "sensor.alarmtrigger.state"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "sensor.alarmtrigger"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/device_tracker.48_60_5f_84_f3_e7.state",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Property"
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_changed": [
+      {
+        "@value": "2019-04-28T09:46:35.008357+00:00"
+      }
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_updated": [
+      {
+        "@value": "2019-04-28T09:46:35.008357+00:00"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "not_home"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "device_tracker.48_60_5f_84_f3_e7.state"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/switch.sonoff.state",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Property"
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_changed": [
+      {
+        "@value": "2019-04-27T23:09:22.938198+00:00"
+      }
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_updated": [
+      {
+        "@value": "2019-04-27T23:09:22.938198+00:00"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "off"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "switch.sonoff.state"
+      }
+    ]
+  },
+  {
+    "@id": "file:///home/daanjo3/master-SE/thesis/project/python/switch.sonoff_2.state",
+    "@type": [
+      "http://www.kadjanderman.com/ontology/class/Property"
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_changed": [
+      {
+        "@value": "2019-04-28T04:19:25.122552+00:00"
+      }
+    ],
+    "http://www.kadjanderman.com/ontology/property/last_updated": [
+      {
+        "@value": "2019-04-28T04:19:25.122552+00:00"
+      }
+    ],
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#value": [
+      {
+        "@value": "off"
+      }
+    ],
+    "http://www.w3.org/2000/01/rdf-schema#label": [
+      {
+        "@value": "switch.sonoff_2.state"
+      }
+    ]
+  }
+]

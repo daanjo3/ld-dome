@@ -1,0 +1,19 @@
+{
+  "last_updated": "2019-04-16T13:05:40.494091+00:00",
+  "entity_id": "zone.home",
+  "context": {
+    "user_id": null,
+    "parent_id": null,
+    "id": "22c0fa97c0ac408cb8c97fb5bd32fa40"
+  },
+  "attributes": {
+    "icon": "mdi:home",
+    "hidden": true,
+    "latitude": 51.5881,
+    "friendly_name": "Home",
+    "longitude": 4.7755,
+    "radius": 100
+  },
+  "last_changed": "2019-04-16T13:05:40.494091+00:00",
+  "state": "zoning"
+}

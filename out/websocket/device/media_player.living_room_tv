@@ -1,0 +1,23 @@
+{
+  "last_updated": "2019-05-01T19:30:40.891117+00:00",
+  "entity_id": "media_player.living_room_tv",
+  "context": {
+    "user_id": null,
+    "parent_id": null,
+    "id": "e165343036384a538b798572d9578ec2"
+  },
+  "attributes": {
+    "supported_features": 21437,
+    "media_content_id": "https://www.netflix.com",
+    "volume_level": 0.8500000238418579,
+    "media_position": 0.517,
+    "is_volume_muted": false,
+    "app_name": "Netflix",
+    "media_position_updated_at": "2019-05-01T19:30:40.888511+00:00",
+    "friendly_name": "Lucifer ChromeCast",
+    "media_duration": 0,
+    "app_id": "CA5E8412"
+  },
+  "last_changed": "2019-05-01T19:30:38.811950+00:00",
+  "state": "playing"
+}

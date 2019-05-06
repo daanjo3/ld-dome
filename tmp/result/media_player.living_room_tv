@@ -1,0 +1,15 @@
+{
+  "last_updated": "2019-04-18T00:34:17.297981+00:00",
+  "entity_id": "media_player.living_room_tv",
+  "context": {
+    "user_id": null,
+    "parent_id": null,
+    "id": "e13179046b8e465082f5fd3df823e5b1"
+  },
+  "attributes": {
+    "supported_features": 21437,
+    "friendly_name": "Lucifer ChromeCast"
+  },
+  "last_changed": "2019-04-18T00:34:17.297981+00:00",
+  "state": "off"
+}
