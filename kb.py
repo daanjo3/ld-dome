@@ -1,48 +1,52 @@
 import os
-import json
-
 import config
-import parser.ld_templates as templates
 
-def list_homes():
-    print(os.listdir(config.KB_HOME))
+from rdflib import Graph, RDF, RDFS, URIRef, Literal
 
-def list_rooms():
-    print(os.listdir(config.KB_ROOM))
+DOME = config.DOME_NAMESPACE
+DOME_DATA = config.DOME_DATA_NAMESPACE
 
-def list_devices():
-    print(os.listdir(config.KB_DEVICE))
+class KnowledgeGraph():
+    graph = Graph()
 
-def list_properties():
-    print(os.listdir(config.KB_PROPERTY))
-
-def list_foi():
-    print(os.listdir(config.KB_FOI))
-
-def add_home(label):
-    home = copy.copy(templates.TEMPLATE_HOME)
-    home['@id'] = 'home_' + label
-    home['label'] = label
-    with open(config.KB_HOME + home['@id'], 'w') as f:
-        json.dump(home, f, indent=2)
-    return home
-
-def add_room(label, home):
-    room = copy.copy(templates.TEMPLATE_ROOM)
-    room['@id'] = 'room_' + label
-    room['label'] = label
-    room['partOf'] = home
-    with open(config.KB_ROOM + room['@id'], 'w') as f:
-        json.dump(room, f, indent=2)
-    return room
-
-def add_foi(label, room, properties):
-    foi = copy.copy(templates.TEMPLATE_FOI)
-    foi['@id'] = 'foi_' + label
-    foi['label'] = label
-    foi['featureOfInterestOf'] = room
-    foi['hasProperty'] = properties
-    with open(config.KB_FOI + foi['@id'], 'w') as f:
-        json.dump(foi, f, indent=2)
-    return foi
+    def __init__(self):
+        if (os.path.isfile(config.PATH_STORE)):
+            self.graph.parse(config.PATH_STORE, format='turtle')
     
+    def add(self, s, p, o):
+        self.graph.add( (s, p, o) )
+    
+    def add_device(self, device_id, label, actuates, property_ref):
+        subject = DOME_DATA[device_id]
+        self.graph.add( (subject, RDF.type, DOME.Device) )
+        self.graph.add( (subject, RDFS.label, Literal(label)) )
+        if(actuates):
+            self.graph.add( (subject, DOME.actuates, property_ref) )
+        else:
+            self.graph.add( (subject, DOME.observes, property_ref) )
+        return subject
+
+    def add_property(self, property_id, label, value, updated, changed):
+        subject = DOME_DATA[property_id]
+        self.graph.add( (subject, RDF.type, DOME.Property) )
+        self.graph.add( (subject, RDFS.label, Literal(label)) )
+        self.graph.add( (subject, DOME.value, Literal(value)) )
+        self.graph.add( (subject, DOME.last_updated, Literal(updated)) )
+        self.graph.add( (subject, DOME.last_changed, Literal(changed)) )
+        return subject
+
+    def commit(self, path=config.PATH_STORE):
+        self.graph.serialize(destination=path, format='turtle')
+
+    def list_by_type(self, t):
+        return list(self.graph[:RDF.type:t])
+    
+    def __str__(self):
+        return str(self.graph.serialize())
+
+    def __len__(self):
+        return len(self.graph)
+
+
+if __name__ == "__main__":
+    kg = KnowledgeGraph()
