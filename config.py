@@ -9,23 +9,14 @@ PATH = os.getcwd()
 
 # --- WEBSOCKET ---
 ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI5NDE1ZjNiZTM1ODQ0NDc2YTNmZDg4OGYxY2M0NjNjMSIsImlhdCI6MTU1NTUzODIzOCwiZXhwIjoxODcwODk4MjM4fQ.CRMahk7jrvFbxcTa2Z1g1L2QzCUA4E257cd0zyFtGX8'
-WEBSOCKET_OUT_DEVICE = PATH + '/out/websocket/device/'
-WEBSOCKET_OUT_CONFIG = PATH + '/out/websocket/config.json'
-WEBSOCKET_OUT_SERVICE = PATH + '/out/websocket/services.json'
+WEBSOCKET_OUT_DEVICE = PATH + '/websocket/out/device/'
+WEBSOCKET_OUT_CONFIG = PATH + '/websocket/out/config.json'
+WEBSOCKET_OUT_SERVICE = PATH + '/websocket/out/services.json'
 
 # --- PARSER ---
 PARSER_IN_DEVICE = WEBSOCKET_OUT_DEVICE
-PARSER_OUT_DEVICE = PATH + '/out/parser/'
 
 # --- TRIPLE STORE ---
 DOME_NAMESPACE = Namespace('http://kadjanderman.com/ontology/')
+DOME_DATA_NAMESPACE = Namespace('http://kadjanderman.com/resource/')
 PATH_STORE = PATH + '/store.nt'
-
-# --- KNOWLEDGE BASE ---
-KB_PATH = PATH + '/out/knowledgebase/'
-
-KB_DEVICE = KB_PATH + 'device/'
-KB_FOI = KB_PATH + 'featureofinterest/'
-KB_HOME = KB_PATH + 'home/'
-KB_PROPERTY = KB_PATH + 'property/'
-KB_ROOM = KB_PATH + 'room/'

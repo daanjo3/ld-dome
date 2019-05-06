@@ -4,67 +4,62 @@ import os
 import copy
 
 # Installed modules
+from rdflib.namespace import RDF, RDFS
+from rdflib import Literal
 
 # Custom modules
 import config
 import parser.ld_templates as templates
+from kb import KnowledgeGraph
 
 DOME = config.DOME_NAMESPACE
+DOME_DATA = config.DOME_DATA_NAMESPACE
 
-# TODO make separate directories for group, person and zone and parse them separately
 WHITELIST = ['switch', 'sensor', 'media_player', 'device_tracker']
 
 class HALDParser():
     fp_in = config.PARSER_IN_DEVICE
     graph = None
 
-    def __init__(self, graph):
-        self.graph = graph
-
     # Function to call when parsing
     def parse(self):
+        self.graph = KnowledgeGraph()
+
         num_parsed = 0
         for f in self.get_files():
             device_raw = self.load(self.fp_in + f)
             self.parse_device(device_raw)
             num_parsed += 1
+            
+        self.graph.commit()
+        del self.graph
         return num_parsed
     
     # Function which parses all devices
     def parse_device(self, device_raw):
-        device = copy.copy(templates.TEMPLATE_DEVICE)
+        label, actuates, observes = None, None, None
+
         # Check whether the device is an actuator or sensor
         actuator = (str(device_raw['entity_id']).split('.')[0]) in ['media_player', 'switch']
-        
-        device['@id'] = device_raw['entity_id']
+
+        # A friendly name is preferred over an entity id as label
         try:
-            device['label'] = device_raw['attributes']['friendly_name']
+            label = device_raw['attributes']['friendly_name']
         except KeyError :
-            device['label'] = device_raw['entity_id']
-
+            label = device_raw['entity_id']
+        
         # Parse the 'state'-property and link to this entity
-        property_id = self.parse_property(device_raw)
-        if actuator:
-            device['actuates'] = property_id
-        else:
-            device['observes'] = property_id
+        prop_ref = self.parse_property(device_raw)
 
-        
-        
-        graph.parse(device, format='json-ld')
+        # Finally add the device to the graph
+        self.graph.add_device(device_raw['entity_id'], label, actuator, prop_ref)
     
     # Currently only parses states, not attributes
     def parse_property(self, device_raw):
-        prop = copy.copy(templates.TEMPLATE_PROPERTY)
-        prop['@id'] = device_raw['entity_id'] + "." + 'state'
-        prop['label'] = device_raw['entity_id'] + "." + 'state'
-        prop['value'] = device_raw['state']
-        prop['last_updated'] = device_raw['last_updated']
-        prop['last_changed'] = device_raw['last_changed']
-
-        graph.parse(prop, format='json-ld')
-
-        return prop['@id']
+        prop_id = device_raw['entity_id'] + "_primaryprop"
+        prop_ref = self.graph.add_property(prop_id, prop_id, device_raw['state'], 
+            device_raw['last_updated'], device_raw['last_changed'])
+        return prop_ref
 
     # Returns a list of files which can be parsed by this parser
     def get_files(self):
