@@ -1,0 +1,14 @@
+{
+  "last_updated": "2019-05-06T23:51:36.108216+00:00",
+  "entity_id": "switch.sonoff",
+  "context": {
+    "user_id": null,
+    "parent_id": null,
+    "id": "eacd6e3293684d408204ffa32f0eb486"
+  },
+  "attributes": {
+    "friendly_name": "Nachtlamp"
+  },
+  "last_changed": "2019-05-06T23:51:36.108216+00:00",
+  "state": "off"
+}

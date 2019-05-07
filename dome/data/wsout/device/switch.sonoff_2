@@ -1,0 +1,14 @@
+{
+  "last_updated": "2019-05-07T17:22:29.463193+00:00",
+  "entity_id": "switch.sonoff_2",
+  "context": {
+    "user_id": null,
+    "parent_id": null,
+    "id": "84abd5b6076a41e1b159d6c384a35d54"
+  },
+  "attributes": {
+    "friendly_name": "Kamerlamp"
+  },
+  "last_changed": "2019-05-07T17:22:29.463193+00:00",
+  "state": "off"
+}

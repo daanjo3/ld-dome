@@ -1,0 +1,86 @@
+@prefix ns1: <http://kadjanderman.com/ontology/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://kadjanderman.com/resource/device_tracker.48_60_5f_84_f3_e7> a ns1:Device ;
+    rdfs:label "Janine" ;
+    ns1:observes <http://kadjanderman.com/resource/device_tracker.48_60_5f_84_f3_e7_primaryprop> .
+
+<http://kadjanderman.com/resource/device_tracker.donkermobile> a ns1:Device ;
+    rdfs:label "Daan" ;
+    ns1:observes <http://kadjanderman.com/resource/device_tracker.donkermobile_primaryprop> .
+
+<http://kadjanderman.com/resource/media_player.living_room_tv> a ns1:Device ;
+    rdfs:label "Lucifer ChromeCast" ;
+    ns1:actuates <http://kadjanderman.com/resource/media_player.living_room_tv_primaryprop> .
+
+<http://kadjanderman.com/resource/sensor.alarmtrigger> a ns1:Device ;
+    rdfs:label "sensor.alarmtrigger" ;
+    ns1:observes <http://kadjanderman.com/resource/sensor.alarmtrigger_primaryprop> .
+
+<http://kadjanderman.com/resource/sensor.sonoff_status> a ns1:Device ;
+    rdfs:label "Nachtlamp status" ;
+    ns1:observes <http://kadjanderman.com/resource/sensor.sonoff_status_primaryprop> .
+
+<http://kadjanderman.com/resource/sensor.sonoff_status_2> a ns1:Device ;
+    rdfs:label "Kamerlamp status" ;
+    ns1:observes <http://kadjanderman.com/resource/sensor.sonoff_status_2_primaryprop> .
+
+<http://kadjanderman.com/resource/switch.sonoff> a ns1:Device ;
+    rdfs:label "Nachtlamp" ;
+    ns1:actuates <http://kadjanderman.com/resource/switch.sonoff_primaryprop> .
+
+<http://kadjanderman.com/resource/switch.sonoff_2> a ns1:Device ;
+    rdfs:label "Kamerlamp" ;
+    ns1:actuates <http://kadjanderman.com/resource/switch.sonoff_2_primaryprop> .
+
+<http://kadjanderman.com/resource/device_tracker.48_60_5f_84_f3_e7_primaryprop> a ns1:Property ;
+    rdfs:label "device_tracker.48_60_5f_84_f3_e7_primaryprop" ;
+    ns1:last_changed "2019-04-28T09:46:35.008357+00:00" ;
+    ns1:last_updated "2019-04-28T09:46:35.008357+00:00" ;
+    ns1:value "not_home" .
+
+<http://kadjanderman.com/resource/device_tracker.donkermobile_primaryprop> a ns1:Property ;
+    rdfs:label "device_tracker.donkermobile_primaryprop" ;
+    ns1:last_changed "2019-04-23T16:57:30.012672+00:00" ;
+    ns1:last_updated "2019-04-23T16:57:30.012672+00:00" ;
+    ns1:value "not_home" .
+
+<http://kadjanderman.com/resource/media_player.living_room_tv_primaryprop> a ns1:Property ;
+    rdfs:label "media_player.living_room_tv_primaryprop" ;
+    ns1:last_changed "2019-05-07T08:49:56.617990+00:00" ;
+    ns1:last_updated "2019-05-07T08:49:56.617990+00:00" ;
+    ns1:value "off" .
+
+<http://kadjanderman.com/resource/sensor.alarmtrigger_primaryprop> a ns1:Property ;
+    rdfs:label "sensor.alarmtrigger_primaryprop" ;
+    ns1:last_changed "2019-04-17T06:30:02.318077+00:00" ;
+    ns1:last_updated "2019-04-17T06:30:02.318077+00:00" ;
+    ns1:value "activated" .
+
+<http://kadjanderman.com/resource/sensor.sonoff_status_2_primaryprop> a ns1:Property ;
+    rdfs:label "sensor.sonoff_status_2_primaryprop" ;
+    ns1:last_changed "2019-05-07T18:40:23.984037+00:00" ;
+    ns1:last_updated "2019-05-07T18:40:23.984037+00:00" ;
+    ns1:value "74" .
+
+<http://kadjanderman.com/resource/sensor.sonoff_status_primaryprop> a ns1:Property ;
+    rdfs:label "sensor.sonoff_status_primaryprop" ;
+    ns1:last_changed "2019-05-07T17:23:10.289368+00:00" ;
+    ns1:last_updated "2019-05-07T18:43:15.302622+00:00" ;
+    ns1:value "100" .
+
+<http://kadjanderman.com/resource/switch.sonoff_2_primaryprop> a ns1:Property ;
+    rdfs:label "switch.sonoff_2_primaryprop" ;
+    ns1:last_changed "2019-05-07T17:22:29.463193+00:00" ;
+    ns1:last_updated "2019-05-07T17:22:29.463193+00:00" ;
+    ns1:value "off" .
+
+<http://kadjanderman.com/resource/switch.sonoff_primaryprop> a ns1:Property ;
+    rdfs:label "switch.sonoff_primaryprop" ;
+    ns1:last_changed "2019-05-06T23:51:36.108216+00:00" ;
+    ns1:last_updated "2019-05-06T23:51:36.108216+00:00" ;
+    ns1:value "off" .
+

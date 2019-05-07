@@ -1,0 +1,4 @@
+dome.egg-info/PKG-INFO
+dome.egg-info/SOURCES.txt
+dome.egg-info/dependency_links.txt
+dome.egg-info/top_level.txt

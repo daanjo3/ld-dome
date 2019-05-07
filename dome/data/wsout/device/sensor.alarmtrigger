@@ -1,0 +1,12 @@
+{
+  "last_updated": "2019-04-17T06:30:02.318077+00:00",
+  "entity_id": "sensor.alarmtrigger",
+  "context": {
+    "user_id": "80f3bc1cf57b44688909f1aefb7ff42b",
+    "parent_id": null,
+    "id": "9ae9416764044b76bded09408906af40"
+  },
+  "attributes": {},
+  "last_changed": "2019-04-17T06:30:02.318077+00:00",
+  "state": "activated"
+}
