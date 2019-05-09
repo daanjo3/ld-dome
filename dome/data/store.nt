@@ -12,6 +12,9 @@
     rdfs:label "Daan" ;
     ns1:observes <http://kadjanderman.com/resource/device_tracker.donkermobile_primaryprop> .
 
+<http://kadjanderman.com/resource/home_MatchBox> a ns1:Home ;
+    rdfs:label "MatchBox" .
+
 <http://kadjanderman.com/resource/media_player.living_room_tv> a ns1:Device ;
     rdfs:label "Lucifer ChromeCast" ;
     ns1:actuates <http://kadjanderman.com/resource/media_player.living_room_tv_primaryprop> .
@@ -50,10 +53,8 @@
 
 <http://kadjanderman.com/resource/media_player.living_room_tv_primaryprop> a ns1:Property ;
     rdfs:label "media_player.living_room_tv_primaryprop" ;
-    ns1:last_changed "2019-05-07T08:49:56.617990+00:00",
-        "2019-05-09T02:50:29.998131+00:00" ;
-    ns1:last_updated "2019-05-07T08:49:56.617990+00:00",
-        "2019-05-09T02:50:29.998131+00:00" ;
+    ns1:last_changed "2019-05-09T02:50:29.998131+00:00" ;
+    ns1:last_updated "2019-05-09T02:50:29.998131+00:00" ;
     ns1:value "off" .
 
 <http://kadjanderman.com/resource/sensor.alarmtrigger_primaryprop> a ns1:Property ;
@@ -64,35 +65,25 @@
 
 <http://kadjanderman.com/resource/sensor.sonoff_status_2_primaryprop> a ns1:Property ;
     rdfs:label "sensor.sonoff_status_2_primaryprop" ;
-    ns1:last_changed "2019-05-07T18:40:23.984037+00:00",
-        "2019-05-09T10:07:47.874153+00:00" ;
-    ns1:last_updated "2019-05-07T18:40:23.984037+00:00",
-        "2019-05-09T10:07:47.874153+00:00" ;
-    ns1:value "74",
-        "76" .
+    ns1:last_changed "2019-05-09T10:07:47.874153+00:00" ;
+    ns1:last_updated "2019-05-09T10:07:47.874153+00:00" ;
+    ns1:value "76" .
 
 <http://kadjanderman.com/resource/sensor.sonoff_status_primaryprop> a ns1:Property ;
     rdfs:label "sensor.sonoff_status_primaryprop" ;
-    ns1:last_changed "2019-05-07T17:23:10.289368+00:00",
-        "2019-05-09T10:05:44.161724+00:00" ;
-    ns1:last_updated "2019-05-07T18:43:15.302622+00:00",
-        "2019-05-09T10:05:44.161724+00:00" ;
-    ns1:value "100",
-        "98" .
+    ns1:last_changed "2019-05-09T10:05:44.161724+00:00" ;
+    ns1:last_updated "2019-05-09T10:05:44.161724+00:00" ;
+    ns1:value "98" .
 
 <http://kadjanderman.com/resource/switch.sonoff_2_primaryprop> a ns1:Property ;
     rdfs:label "switch.sonoff_2_primaryprop" ;
-    ns1:last_changed "2019-05-07T17:22:29.463193+00:00",
-        "2019-05-08T20:30:47.867038+00:00" ;
-    ns1:last_updated "2019-05-07T17:22:29.463193+00:00",
-        "2019-05-08T20:30:47.867038+00:00" ;
+    ns1:last_changed "2019-05-08T20:30:47.867038+00:00" ;
+    ns1:last_updated "2019-05-08T20:30:47.867038+00:00" ;
     ns1:value "off" .
 
 <http://kadjanderman.com/resource/switch.sonoff_primaryprop> a ns1:Property ;
     rdfs:label "switch.sonoff_primaryprop" ;
-    ns1:last_changed "2019-05-06T23:51:36.108216+00:00",
-        "2019-05-08T23:08:30.715679+00:00" ;
-    ns1:last_updated "2019-05-06T23:51:36.108216+00:00",
-        "2019-05-08T23:08:30.715679+00:00" ;
+    ns1:last_changed "2019-05-08T23:08:30.715679+00:00" ;
+    ns1:last_updated "2019-05-08T23:08:30.715679+00:00" ;
     ns1:value "off" .
 

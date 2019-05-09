@@ -1,0 +1,26 @@
+<!doctype html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='init-style.css') }}">
+  <title>DomeLD</title>
+</head>
+<body>
+    <div class='init-container ic-shadow'>
+        <div class='content-list'>
+            <h3 style='text-align: center'>Rooms</h3>
+            <ul>
+                {% for room in rooms %}
+                    <li>{{ room }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class='content'>
+            <p>Rooms</p>
+            <form>
+                <form action='submit'>
+                    Name: <input type='text' name='hname' placeholder="myhome"><br>
+                    <button>Save</button>
+                </form>
+            </form>
+        </div>
+    </div>
+</body>
