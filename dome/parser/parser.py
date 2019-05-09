@@ -20,10 +20,12 @@ class HALDParser():
     fp_in = config.PARSER_IN_DEVICE
     graph = None
 
+    def __init__(self, graph, fp_in=config.PARSER_IN_DEVICE):
+        self.graph = graph
+        self.fp_in = fp_in
+
     # Function to call when parsing
     def parse(self):
-        self.graph = KnowledgeGraph()
-
         num_parsed = 0
         for f in self.get_files():
             device_raw = self.load(self.fp_in + f)
@@ -31,7 +33,6 @@ class HALDParser():
             num_parsed += 1
             
         self.graph.commit()
-        del self.graph
         return num_parsed
     
     # Function which parses all devices
@@ -77,5 +78,6 @@ class HALDParser():
         return device
 
 if __name__ == "__main__":
-    parser = HALDParser()
+    graph = KnowledgeGraph()
+    parser = HALDParser(graph)
     parser.parse()

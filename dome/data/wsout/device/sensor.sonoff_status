@@ -1,16 +1,16 @@
 {
-  "last_updated": "2019-05-07T18:43:15.302622+00:00",
+  "last_updated": "2019-05-09T10:05:44.161724+00:00",
   "entity_id": "sensor.sonoff_status",
   "context": {
     "user_id": null,
     "parent_id": null,
-    "id": "c8b9bd99fe204c7d9c6d3b05c5aaa83c"
+    "id": "bfe4f787311d4af793db7b01d6cf8d97"
   },
   "attributes": {
     "unit_of_measurement": " ",
     "BootCount": 13,
     "Module": "Sonoff Basic",
-    "Uptime": "22T06:52:01",
+    "Uptime": "23T22:14:30",
     "IPAddress": "192.168.1.110",
     "SDK": "1.5.3(aec24ac9)",
     "LoadAvg": 19,
@@ -20,11 +20,11 @@
     "Version": "6.5.0(release-sonoff)",
     "Core": "2_3_0",
     "friendly_name": "Nachtlamp status",
-    "RSSI": "100",
-    "SaveCount": 120,
+    "RSSI": "98",
+    "SaveCount": 124,
     "RestartReason": "Software/System restart",
     "WiFi LinkCount": 2
   },
-  "last_changed": "2019-05-07T17:23:10.289368+00:00",
-  "state": "100"
+  "last_changed": "2019-05-09T10:05:44.161724+00:00",
+  "state": "98"
 }

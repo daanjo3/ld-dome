@@ -9,9 +9,9 @@ DOME_DATA = config.DOME_DATA_NAMESPACE
 class KnowledgeGraph():
     graph = Graph()
 
-    def __init__(self):
-        if (os.path.isfile(config.PATH_STORE)):
-            self.graph.parse(config.PATH_STORE, format='turtle')
+    def __init__(self, store_path=config.PATH_STORE):        
+        if (os.path.isfile(store_path)):
+            self.graph.parse(store_path, format='turtle')
     
     def add(self, s, p, o):
         self.graph.add( (s, p, o) )

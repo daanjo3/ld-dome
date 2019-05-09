@@ -9,7 +9,9 @@ from dome.util.kb import KnowledgeGraph
 
 DOME = config.DOME_NAMESPACE
 
-parser = HALDParser()
+graph = KnowledgeGraph()
+
+parser = HALDParser(graph)
 
 websocket.main()
 f_num = parser.parse()

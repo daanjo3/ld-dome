@@ -1,10 +1,10 @@
 {
-  "last_updated": "2019-05-07T17:22:29.494838+00:00",
+  "last_updated": "2019-05-08T23:08:30.732241+00:00",
   "entity_id": "group.all_switches",
   "context": {
     "user_id": null,
     "parent_id": null,
-    "id": "954e0c0d0fc846fa8f053b975d5e5e83"
+    "id": "258a83322ad047c89c7d1015f70ac0ec"
   },
   "attributes": {
     "friendly_name": "all switches",
@@ -16,6 +16,6 @@
     "hidden": true,
     "auto": true
   },
-  "last_changed": "2019-05-07T17:22:29.494838+00:00",
+  "last_changed": "2019-05-08T23:08:30.732241+00:00",
   "state": "off"
 }
