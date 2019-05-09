@@ -1,9 +1,9 @@
+from dome.webapp import app
+from flask import render_template
+
 from dome.util.kb import KnowledgeGraph
 import dome.config as config
 DOME = config.DOME_NAMESPACE
-
-from flask import Flask, render_template
-app = Flask(__name__)
 
 @app.route('/')
 @app.route('/<t>')
