@@ -9,12 +9,11 @@ bp = Blueprint('init', __name__, url_prefix='/init', template_folder='templates'
 @bp.route('/home', methods=('GET', 'POST'))
 def home():
     if(request.method == 'POST'):
-        homename = request.form['hname']
+        home_name = request.form['hname']
+        home_id = 'home_' + home_name
+        
         graph = KnowledgeGraph()
-        home_id = 'home_' + homename
-        print('homename: ' + homename)
-        print('home_id: ' + home_id)
-        graph.add_home(home_id, homename)
+        graph.add_home(home_id, home_name)
         graph.commit()
         del graph
         return redirect(url_for('init.room'))
@@ -23,11 +22,27 @@ def home():
     except TemplateNotFound:
         return abort(404)
 
-@bp.route('/room')
+@bp.route('/room', methods=('GET', 'POST'))
 def room():
     graph = KnowledgeGraph()
-    test_list = graph.list_by_type(DOME.Device, label=True) + graph.list_by_type(DOME.Property, label=True)
+
+    if(request.method == 'POST'):
+        room_name = request.form['rname']
+        room_id = 'room_' + room_name
+
+        graph.add_room(room_id, room_name)
+        graph.commit()
+    
+    room_list = graph.list_by_type(DOME.Room, label=True)
+    del graph
     try:
-        return render_template('init_room.html', rooms=test_list)
+        return render_template('init_room.html', rooms=room_list)
+    except TemplateNotFound:
+        return abort(404)
+
+@bp.route('/devprop')
+def devprop():
+    try:
+        return render_template('init_dev_prop.html')
     except TemplateNotFound:
         return abort(404)

@@ -42,6 +42,11 @@ class KnowledgeGraph():
         self.graph.add( (subject, RDF.type, DOME.Home) )
         self.graph.add( (subject, RDFS.label, Literal(label)) )
         return subject
+    
+    def add_room(self, room_id, label):
+        subject = DOME_DATA[room_id]
+        self.graph.add( (subject, RDF.type, DOME.Room) )
+        self.graph.add( (subject, RDFS.label, Literal(label)) )
 
     def commit(self, path=None):
         if(not path):
@@ -59,6 +64,7 @@ class KnowledgeGraph():
         return subj_list
     
     def clear(self):
+        self.graph = None
         if(os.path.isfile(config.PATH_STORE)):
             os.remove(config.PATH_STORE)
     

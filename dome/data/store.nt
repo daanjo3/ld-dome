@@ -12,12 +12,18 @@
     rdfs:label "Daan" ;
     ns1:observes <http://kadjanderman.com/resource/device_tracker.donkermobile_primaryprop> .
 
-<http://kadjanderman.com/resource/home_MatchBox> a ns1:Home ;
-    rdfs:label "MatchBox" .
-
 <http://kadjanderman.com/resource/media_player.living_room_tv> a ns1:Device ;
     rdfs:label "Lucifer ChromeCast" ;
     ns1:actuates <http://kadjanderman.com/resource/media_player.living_room_tv_primaryprop> .
+
+<http://kadjanderman.com/resource/room_Keuken> a ns1:Room ;
+    rdfs:label "Keuken" .
+
+<http://kadjanderman.com/resource/room_Slaapkamer> a ns1:Room ;
+    rdfs:label "Slaapkamer" .
+
+<http://kadjanderman.com/resource/room_Woonkamer> a ns1:Room ;
+    rdfs:label "Woonkamer" .
 
 <http://kadjanderman.com/resource/sensor.alarmtrigger> a ns1:Device ;
     rdfs:label "sensor.alarmtrigger" ;

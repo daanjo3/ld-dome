@@ -5,22 +5,32 @@
 </head>
 <body>
     <div class='init-container ic-shadow'>
-        <div class='content-list'>
-            <h3 style='text-align: center'>Rooms</h3>
-            <ul>
-                {% for room in rooms %}
-                    <li>{{ room }}</li>
-                {% endfor %}
-            </ul>
+        <div class='init-header'>
+            <h1>Rooms</h1>
         </div>
-        <div class='content'>
-            <p>Rooms</p>
-            <form>
-                <form action='submit'>
-                    Name: <input type='text' name='hname' placeholder="myhome"><br>
-                    <button>Save</button>
+
+        <div class='content-container'>
+
+            <div class='content-list'>
+                <ul>
+                    {% for room in rooms %}
+                        <li>{{ room }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+    
+            <div class='content'>
+                <form method='post'>
+                    <label>Room name</label><br>
+                    <input class='form-text' type='text' name='rname' placeholder="myhome"><br>
+                    <input type='submit' value='add'>
                 </form>
-            </form>
+            </div>
+
+        </div>
+
+        <div class='init-footer'>
+            <a class='action init-btn-continue' href="{{ url_for('init.devprop')}}"><button>Continue</button></a>
         </div>
     </div>
 </body>
