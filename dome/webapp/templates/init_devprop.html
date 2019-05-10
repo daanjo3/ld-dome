@@ -1,0 +1,36 @@
+{% extends 'init_base.html' %}
+
+{% block header %}
+Devices & Properties
+{% endblock %}
+
+{% block content %}
+    <div class='content-list'>
+        <span>Registered rooms</span>
+        <ul id='devlist'>
+            {% for dev in devices %}
+                <li id='{{dev}}'><button id="{{dev}}">{{ dev }}</button></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class='content'>
+        <form method='post'>
+            <label>Room name</label><br>
+            <input id='devprop-name' class='form-text' type='text' name='rname' placeholder="myhome"><br>
+            <input type='submit' value='add'>
+        </form>
+    </div>
+    
+    <script type="text/javascript">
+    document.getElementById("devlist").addEventListener("click", function(e) {
+        if(e.target && e.target.nodeName == "BUTTON") {
+            document.getElementById("devprop-name").value = e.target.id
+           console.log(e.target.id + " was clicked!")
+       }
+    })
+    </script>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

@@ -42,7 +42,10 @@ def room():
 
 @bp.route('/devprop')
 def devprop():
+    graph = KnowledgeGraph()
+
+    device_list = graph.list_by_type(DOME.Device, label=True)
     try:
-        return render_template('init_dev_prop.html')
+        return render_template('init_devprop.html', devices=device_list)
     except TemplateNotFound:
         return abort(404)

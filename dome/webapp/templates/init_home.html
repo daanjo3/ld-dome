@@ -1,4 +1,4 @@
-<!doctype html>
+<!-- <!doctype html>
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='init-style.css') }}">
   <title>DomeLD</title>
@@ -13,4 +13,21 @@
             </form>
         </div>
     </div>
-</body>
+</body> -->
+
+{% extends 'init_base.html' %}
+
+{% block header %}
+Home
+{% endblock %}
+
+{% block content %}
+    Insert a name for your home
+    <form method="post">
+        Name: <input type='text' name='hname' placeholder="myhome"><br>
+        <input type="submit" value="Save">
+    </form>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

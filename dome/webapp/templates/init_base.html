@@ -1,0 +1,21 @@
+<!doctype html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='init-style.css') }}">
+  <title>DomeLD</title>
+</head>
+<body>
+    <div class='init-container ic-shadow'>
+        <div class='init-header'>
+            <h1>{% block header %}{% endblock %}</h1>
+        </div>
+
+        <div class='content-container'>
+            {% block content %} {% endblock %}
+        </div>
+
+        <div class='init-footer'>
+            {% block footer %} {% endblock %}
+        </div>
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.4.1.min.js') }}"></script>
+</body>
