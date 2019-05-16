@@ -4,13 +4,22 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+<http://kadjanderman.com/resource/MatchBox> ns1:hasfeatureofinterest <http://kadjanderman.com/resource/foi/Test3> .
+
+<http://kadjanderman.com/resource/Slaapkamer> ns1:hasfeatureofinterest <http://kadjanderman.com/resource/foi/Bedlamp> .
+
+<http://kadjanderman.com/resource/Woonkamer> ns1:hasfeatureofinterest <http://kadjanderman.com/resource/foi/Kamerlamp> .
+
 <http://kadjanderman.com/resource/device_tracker.48_60_5f_84_f3_e7> a ns1:Device ;
-    rdfs:label "Janine" ;
+    rdfs:label "Device Tracker: Janine" ;
     ns1:observes <http://kadjanderman.com/resource/device_tracker.48_60_5f_84_f3_e7_primaryprop> .
 
 <http://kadjanderman.com/resource/device_tracker.donkermobile> a ns1:Device ;
-    rdfs:label "Daan" ;
+    rdfs:label "Device Tracker: Daan" ;
     ns1:observes <http://kadjanderman.com/resource/device_tracker.donkermobile_primaryprop> .
+
+<http://kadjanderman.com/resource/home_MatchBox> a ns1:Home ;
+    rdfs:label "MatchBox" .
 
 <http://kadjanderman.com/resource/media_player.living_room_tv> a ns1:Device ;
     rdfs:label "Lucifer ChromeCast" ;
@@ -26,69 +35,83 @@
     rdfs:label "Woonkamer" .
 
 <http://kadjanderman.com/resource/sensor.alarmtrigger> a ns1:Device ;
-    rdfs:label "sensor.alarmtrigger" ;
+    rdfs:label "Wekker" ;
     ns1:observes <http://kadjanderman.com/resource/sensor.alarmtrigger_primaryprop> .
 
 <http://kadjanderman.com/resource/sensor.sonoff_status> a ns1:Device ;
-    rdfs:label "Nachtlamp status" ;
+    rdfs:label "Nachtlamp: Sensor" ;
     ns1:observes <http://kadjanderman.com/resource/sensor.sonoff_status_primaryprop> .
 
 <http://kadjanderman.com/resource/sensor.sonoff_status_2> a ns1:Device ;
-    rdfs:label "Kamerlamp status" ;
+    rdfs:label "Kamerlamp: Sensor" ;
     ns1:observes <http://kadjanderman.com/resource/sensor.sonoff_status_2_primaryprop> .
 
 <http://kadjanderman.com/resource/switch.sonoff> a ns1:Device ;
-    rdfs:label "Nachtlamp" ;
+    rdfs:label "Nachtlamp: Actuator" ;
     ns1:actuates <http://kadjanderman.com/resource/switch.sonoff_primaryprop> .
 
 <http://kadjanderman.com/resource/switch.sonoff_2> a ns1:Device ;
-    rdfs:label "Kamerlamp" ;
+    rdfs:label "Kamerlamp: Actuator" ;
     ns1:actuates <http://kadjanderman.com/resource/switch.sonoff_2_primaryprop> .
 
 <http://kadjanderman.com/resource/device_tracker.48_60_5f_84_f3_e7_primaryprop> a ns1:Property ;
-    rdfs:label "device_tracker.48_60_5f_84_f3_e7_primaryprop" ;
+    rdfs:label "Presence" ;
     ns1:last_changed "2019-04-28T09:46:35.008357+00:00" ;
     ns1:last_updated "2019-04-28T09:46:35.008357+00:00" ;
     ns1:value "not_home" .
 
-<http://kadjanderman.com/resource/device_tracker.donkermobile_primaryprop> a ns1:Property ;
-    rdfs:label "device_tracker.donkermobile_primaryprop" ;
-    ns1:last_changed "2019-04-23T16:57:30.012672+00:00" ;
-    ns1:last_updated "2019-04-23T16:57:30.012672+00:00" ;
-    ns1:value "not_home" .
+<http://kadjanderman.com/resource/foi/Bedlamp> a ns1:FeatureOfInterest ;
+    rdfs:label "Bedlamp" ;
+    ns1:hasproperty <http://kadjanderman.com/resource/sensor.sonoff_status_primaryprop>,
+        <http://kadjanderman.com/resource/switch.sonoff_primaryprop> .
+
+<http://kadjanderman.com/resource/foi/Kamerlamp> a ns1:FeatureOfInterest ;
+    rdfs:label "Kamerlamp" ;
+    ns1:hasproperty <http://kadjanderman.com/resource/sensor.sonoff_status_2_primaryprop>,
+        <http://kadjanderman.com/resource/switch.sonoff_2_primaryprop> .
+
+<http://kadjanderman.com/resource/foi/Test3> a ns1:FeatureOfInterest ;
+    rdfs:label "Test3" ;
+    ns1:hasproperty <http://kadjanderman.com/resource/device_tracker.donkermobile_primaryprop> .
 
 <http://kadjanderman.com/resource/media_player.living_room_tv_primaryprop> a ns1:Property ;
-    rdfs:label "media_player.living_room_tv_primaryprop" ;
+    rdfs:label "State" ;
     ns1:last_changed "2019-05-09T02:50:29.998131+00:00" ;
     ns1:last_updated "2019-05-09T02:50:29.998131+00:00" ;
     ns1:value "off" .
 
 <http://kadjanderman.com/resource/sensor.alarmtrigger_primaryprop> a ns1:Property ;
-    rdfs:label "sensor.alarmtrigger_primaryprop" ;
+    rdfs:label "Activated" ;
     ns1:last_changed "2019-04-17T06:30:02.318077+00:00" ;
     ns1:last_updated "2019-04-17T06:30:02.318077+00:00" ;
     ns1:value "activated" .
 
+<http://kadjanderman.com/resource/device_tracker.donkermobile_primaryprop> a ns1:Property ;
+    rdfs:label "Presence" ;
+    ns1:last_changed "2019-04-23T16:57:30.012672+00:00" ;
+    ns1:last_updated "2019-04-23T16:57:30.012672+00:00" ;
+    ns1:value "not_home" .
+
 <http://kadjanderman.com/resource/sensor.sonoff_status_2_primaryprop> a ns1:Property ;
-    rdfs:label "sensor.sonoff_status_2_primaryprop" ;
+    rdfs:label "Connectivity" ;
     ns1:last_changed "2019-05-09T10:07:47.874153+00:00" ;
     ns1:last_updated "2019-05-09T10:07:47.874153+00:00" ;
     ns1:value "76" .
 
 <http://kadjanderman.com/resource/sensor.sonoff_status_primaryprop> a ns1:Property ;
-    rdfs:label "sensor.sonoff_status_primaryprop" ;
+    rdfs:label "Connectivity" ;
     ns1:last_changed "2019-05-09T10:05:44.161724+00:00" ;
     ns1:last_updated "2019-05-09T10:05:44.161724+00:00" ;
     ns1:value "98" .
 
 <http://kadjanderman.com/resource/switch.sonoff_2_primaryprop> a ns1:Property ;
-    rdfs:label "switch.sonoff_2_primaryprop" ;
+    rdfs:label "State" ;
     ns1:last_changed "2019-05-08T20:30:47.867038+00:00" ;
     ns1:last_updated "2019-05-08T20:30:47.867038+00:00" ;
     ns1:value "off" .
 
 <http://kadjanderman.com/resource/switch.sonoff_primaryprop> a ns1:Property ;
-    rdfs:label "switch.sonoff_primaryprop" ;
+    rdfs:label "State" ;
     ns1:last_changed "2019-05-08T23:08:30.715679+00:00" ;
     ns1:last_updated "2019-05-08T23:08:30.715679+00:00" ;
     ns1:value "off" .
