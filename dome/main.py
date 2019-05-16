@@ -14,49 +14,41 @@ graph = KnowledgeGraph()
 
 def show():
     print('--- Home ---')
-    for home in graph.list_by_type(DOME.Home):
+    for home in graph.get_entities_by_type(DOME.Home):
         print(home)
     print()
     
     print('--- Devices ---')
-    for dev in graph.list_by_type(DOME.Device):
+    for dev in graph.get_entities_by_type(DOME.Device):
         print(dev)
     print()
     
     print('--- Properties ---')
-    for prop in graph.list_by_type(DOME.Property):
+    for prop in graph.get_entities_by_type(DOME.Property):
         print(prop)
     print()
-
-def test_entity():
-    res = graph.get_entity('http://kadjanderman.com/resource/switch.sonoff_2')
-    print('--- Entity Sample ---')
-    print('Entity:')
-    print('http://kadjanderman.com/resource/switch.sonoff_2')
-    print('Contains ' + str(len(res)) + ' triples.')
-    print('Shape: [(), (), ..., ()]')
-    print()
-    for prop, obj in res:
-        print('Property:')
-        print(prop)
-        print('Object:')
-        print(obj)
-        print()
 
 def reload_graph():
-    graph.clear()
+    graph.purge()
     parser = HALDParser(graph)
     websocket.main()
     f_num = parser.parse()
     print(str(f_num) + ' devices have been parsed')
     print(str(len(graph)) + ' triples are currently in the store')
 
+class TestPrint():
+    def modify_literal_m():
+        print(graph.modify_literal_m())
+
 if __name__ == "__main__":
     if(len(sys.argv) == 2 and sys.argv[1] == 'show'):
         show()
     elif(len(sys.argv) == 2 and sys.argv[1] == 'reload'):
         reload_graph()
-    elif(len(sys.argv) == 3 and sys.argv[1] == 'test' and sys.argv[2] == 'entity'):
-        test_entity()
+    elif(len(sys.argv) == 3 and sys.argv[1] == 'test'):
+        if (sys.argv[2] == 'entity'):
+            test_entity()
+        if (sys.argv[2] == 'modify'):
+            TestPrint().modify_literal_m()
 
         

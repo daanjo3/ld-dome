@@ -52,12 +52,11 @@ class HALDParser():
         prop_ref = self.parse_property(device_raw)
 
         # Finally add the device to the graph
-        self.graph.add_device(device_raw['entity_id'], label, actuator, prop_ref)
+        self.graph.add_device(label, actuator, prop_ref)
     
     # Currently only parses states, not attributes
     def parse_property(self, device_raw):
-        prop_id = device_raw['entity_id'] + "_primaryprop"
-        prop_ref = self.graph.add_property(prop_id, prop_id, device_raw['state'], 
+        prop_ref = self.graph.add_property(device_raw['entity_id'], device_raw['state'], 
             device_raw['last_updated'], device_raw['last_changed'])
         return prop_ref
 

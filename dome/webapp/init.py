@@ -11,10 +11,9 @@ bp = Blueprint('init', __name__, url_prefix='/init', template_folder='templates'
 def home():
     if(request.method == 'POST'):
         home_name = request.form['hname']
-        home_id = 'home_' + home_name
         
         graph = KnowledgeGraph()
-        graph.add_home(home_id, home_name)
+        graph.add_home(home_name)
         graph.commit()
         del graph
         return redirect(url_for('init.room'))
@@ -29,12 +28,11 @@ def room():
 
     if(request.method == 'POST'):
         room_name = request.form['rname']
-        room_id = 'room_' + room_name
 
-        graph.add_room(room_id, room_name)
+        graph.add_room(room_name)
         graph.commit()
     
-    room_list = graph.list_by_type(DOME.Room, label=True)
+    room_list = graph.get_entities_by_type(DOME.Room, mode=1)
     del graph
     try:
         return render_template('init_room.html', rooms=room_list)
@@ -48,7 +46,7 @@ def devprop():
     if (request.method == 'POST'):
         entity_id = request.form['id']
         entity_label = request.form['label']
-        graph.modify(entity_id, RDFS.label, entity_label)
+        graph.modify_literal(entity_id, RDFS.label, entity_label)
         graph.commit()
 
     device_list = graph.get_entities_by_type(DOME.Device)
