@@ -32,15 +32,16 @@ class HALDParser():
             self.parse_device(device_raw)
             num_parsed += 1
             
-        self.graph.commit()
         return num_parsed
     
     # Function which parses all devices
     def parse_device(self, device_raw):
-        label, actuates, observes = None, None, None
+        label, actuates, observes, ha_type = None, None, None, None
 
         # Check whether the device is an actuator or sensor
-        actuator = (str(device_raw['entity_id']).split('.')[0]) in ['media_player', 'switch']
+        ha_name = str(device_raw['entity_id'])
+        ha_type = ha_name.split('.')[0]
+        actuator = ha_type in ['media_player', 'switch']
 
         # A friendly name is preferred over an entity id as label
         try:
@@ -52,7 +53,7 @@ class HALDParser():
         prop_ref = self.parse_property(device_raw)
 
         # Finally add the device to the graph
-        self.graph.add_device(label, actuator, prop_ref)
+        self.graph.add_device(label, actuator, prop_ref, ha_name, ha_type)
     
     # Currently only parses states, not attributes
     def parse_property(self, device_raw):

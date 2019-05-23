@@ -1,80 +1,34 @@
 {
+  "id": 4,
+  "success": true,
+  "type": "result",
   "result": {
-    "automation": {
-      "trigger": {
-        "fields": {
-          "entity_id": {
-            "description": "Name of the automation to trigger.",
-            "example": "automation.notify_home"
-          }
-        },
-        "description": "Trigger the action of an automation."
+    "tts": {
+      "clear_cache": {
+        "fields": {},
+        "description": "Remove cache files and RAM cache."
+      },
+      "google_say": {
+        "fields": {},
+        "description": ""
+      }
+    },
+    "script": {
+      "turn_off": {
+        "fields": {},
+        "description": ""
       },
       "toggle": {
-        "fields": {
-          "entity_id": {
-            "description": "Name of the automation to toggle on/off.",
-            "example": "automation.notify_home"
-          }
-        },
-        "description": "Toggle an automation."
+        "fields": {},
+        "description": ""
+      },
+      "turn_on": {
+        "fields": {},
+        "description": ""
       },
       "reload": {
         "fields": {},
-        "description": "Reload the automation configuration."
-      },
-      "turn_off": {
-        "fields": {
-          "entity_id": {
-            "description": "Name of the automation to turn off.",
-            "example": "automation.notify_home"
-          }
-        },
-        "description": "Disable an automation."
-      },
-      "turn_on": {
-        "fields": {
-          "entity_id": {
-            "description": "Name of the automation to turn on.",
-            "example": "automation.notify_home"
-          }
-        },
-        "description": "Enable an automation."
-      }
-    },
-    "device_tracker": {
-      "see": {
-        "fields": {
-          "mac": {
-            "description": "MAC address of device",
-            "example": "FF:FF:FF:FF:FF:FF"
-          },
-          "dev_id": {
-            "description": "Id of device (find id in known_devices.yaml).",
-            "example": "phonedave"
-          },
-          "host_name": {
-            "description": "Hostname of device",
-            "example": "Dave"
-          },
-          "location_name": {
-            "description": "Name of location where device is located (not_home is away).",
-            "example": "home"
-          },
-          "gps": {
-            "description": "GPS coordinates where device is located (latitude, longitude).",
-            "example": "[51.509802, -0.086692]"
-          },
-          "gps_accuracy": {
-            "description": "Accuracy of GPS coordinates.",
-            "example": "80"
-          },
-          "battery": {
-            "description": "Battery level of device.",
-            "example": "100"
-          }
-        },
-        "description": "Control tracked device."
+        "description": ""
       }
     },
     "mqtt": {
@@ -111,15 +65,14 @@
         "description": "Publish a message to an MQTT topic."
       }
     },
-    "conversation": {
-      "process": {
-        "fields": {
-          "text": {
-            "description": "Transcribed text",
-            "example": "Turn all lights on"
-          }
-        },
-        "description": "Launch a conversation from a transcribed text."
+    "cloud": {
+      "remote_connect": {
+        "fields": {},
+        "description": "Make instance UI available outside over NabuCasa cloud."
+      },
+      "remote_disconnect": {
+        "fields": {},
+        "description": "Disconnect UI from NabuCasa cloud."
       }
     },
     "frontend": {
@@ -137,87 +90,18 @@
         "description": "Reload themes from yaml configuration."
       }
     },
-    "persistent_notification": {
-      "dismiss": {
+    "conversation": {
+      "process": {
         "fields": {
-          "notification_id": {
-            "description": "Target ID of the notification, which should be removed. [Required]",
-            "example": 1234
+          "text": {
+            "description": "Transcribed text",
+            "example": "Turn all lights on"
           }
         },
-        "description": "Remove a notification from the frontend."
-      },
-      "mark_read": {
-        "fields": {},
-        "description": ""
-      },
-      "create": {
-        "fields": {
-          "message": {
-            "description": "Message body of the notification. [Templates accepted]",
-            "example": "Please check your configuration.yaml."
-          },
-          "title": {
-            "description": "Optional title for your notification. [Optional, Templates accepted]",
-            "example": "Test notification"
-          },
-          "notification_id": {
-            "description": "Target ID of the notification, will replace a notification with the same Id. [Optional]",
-            "example": 1234
-          }
-        },
-        "description": "Show a notification in the frontend."
-      }
-    },
-    "script": {
-      "turn_on": {
-        "fields": {},
-        "description": ""
-      },
-      "toggle": {
-        "fields": {},
-        "description": ""
-      },
-      "reload": {
-        "fields": {},
-        "description": ""
-      },
-      "turn_off": {
-        "fields": {},
-        "description": ""
+        "description": "Launch a conversation from a transcribed text."
       }
     },
     "homeassistant": {
-      "stop": {
-        "fields": {},
-        "description": "Stop the Home Assistant service."
-      },
-      "check_config": {
-        "fields": {},
-        "description": "Check the Home Assistant configuration files for errors. Errors will be displayed in the Home Assistant log."
-      },
-      "reload_core_config": {
-        "fields": {},
-        "description": "Reload the core configuration."
-      },
-      "turn_on": {
-        "fields": {
-          "entity_id": {
-            "description": "The entity_id of the device to turn on.",
-            "example": "light.living_room"
-          }
-        },
-        "description": "Generic service to turn devices on under any domain. Same usage as the light.turn_on, switch.turn_on, etc. services."
-      },
-      "toggle": {
-        "fields": {
-          "entity_id": {
-            "description": "The entity_id of the device to toggle on/off.",
-            "example": "light.living_room"
-          }
-        },
-        "description": "Generic service to toggle devices on/off under any domain. Same usage as the light.turn_on, switch.turn_on, etc. services."
-      },
       "turn_off": {
         "fields": {
           "entity_id": {
@@ -239,35 +123,36 @@
           }
         },
         "description": "Force one or more entities to update its data"
-      }
-    },
-    "switch": {
+      },
       "turn_on": {
         "fields": {
           "entity_id": {
-            "description": "Name(s) of entities to turn on",
-            "example": "switch.living_room"
+            "description": "The entity_id of the device to turn on.",
+            "example": "light.living_room"
           }
         },
-        "description": "Turn a switch on."
+        "description": "Generic service to turn devices on under any domain. Same usage as the light.turn_on, switch.turn_on, etc. services."
+      },
+      "check_config": {
+        "fields": {},
+        "description": "Check the Home Assistant configuration files for errors. Errors will be displayed in the Home Assistant log."
       },
       "toggle": {
         "fields": {
           "entity_id": {
-            "description": "Name(s) of entities to toggle.",
-            "example": "switch.living_room"
+            "description": "The entity_id of the device to toggle on/off.",
+            "example": "light.living_room"
           }
         },
-        "description": "Toggles a switch state."
+        "description": "Generic service to toggle devices on/off under any domain. Same usage as the light.turn_on, switch.turn_on, etc. services."
       },
-      "turn_off": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to turn off.",
-            "example": "switch.living_room"
-          }
-        },
-        "description": "Turn a switch off."
+      "reload_core_config": {
+        "fields": {},
+        "description": "Reload the core configuration."
+      },
+      "stop": {
+        "fields": {},
+        "description": "Stop the Home Assistant service."
       }
     },
     "notify": {
@@ -293,279 +178,36 @@
         "description": "Send a notification."
       }
     },
-    "media_player": {
-      "select_source": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to change source on.",
-            "example": "media_player.media_player.txnr535_0009b0d81f82"
-          },
-          "source": {
-            "description": "Name of the source to switch to. Platform dependent.",
-            "example": "video1"
-          }
-        },
-        "description": "Send the media player the command to change input source."
-      },
-      "volume_mute": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to mute.",
-            "example": "media_player.living_room_sonos"
-          },
-          "is_volume_muted": {
-            "description": "True/false for mute/unmute.",
-            "example": true
-          }
-        },
-        "description": "Mute a media player's volume."
-      },
-      "media_next_track": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to send next track command to.",
-            "example": "media_player.living_room_sonos"
-          }
-        },
-        "description": "Send the media player the command for next track."
-      },
+    "switch": {
       "turn_off": {
         "fields": {
           "entity_id": {
             "description": "Name(s) of entities to turn off.",
-            "example": "media_player.living_room_chromecast"
+            "example": "switch.living_room"
           }
         },
-        "description": "Turn a media player power off."
-      },
-      "media_seek": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to seek media on.",
-            "example": "media_player.living_room_chromecast"
-          },
-          "seek_position": {
-            "description": "Position to seek to. The format is platform dependent.",
-            "example": 100
-          }
-        },
-        "description": "Send the media player the command to seek in current playing media."
+        "description": "Turn a switch off."
       },
       "toggle": {
         "fields": {
           "entity_id": {
             "description": "Name(s) of entities to toggle.",
-            "example": "media_player.living_room_chromecast"
+            "example": "switch.living_room"
           }
         },
-        "description": "Toggles a media player power state."
-      },
-      "volume_set": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to set volume level on.",
-            "example": "media_player.living_room_sonos"
-          },
-          "volume_level": {
-            "description": "Volume level to set as float.",
-            "example": 0.6
-          }
-        },
-        "description": "Set a media player's volume level."
-      },
-      "volume_up": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to turn volume up on.",
-            "example": "media_player.living_room_sonos"
-          }
-        },
-        "description": "Turn a media player volume up."
-      },
-      "media_play_pause": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to toggle play/pause state on.",
-            "example": "media_player.living_room_sonos"
-          }
-        },
-        "description": "Toggle media player play/pause state."
-      },
-      "media_previous_track": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to send previous track command to.",
-            "example": "media_player.living_room_sonos"
-          }
-        },
-        "description": "Send the media player the command for previous track."
-      },
-      "media_play": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to play on.",
-            "example": "media_player.living_room_sonos"
-          }
-        },
-        "description": "Send the media player the command for play."
-      },
-      "select_sound_mode": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to change sound mode on.",
-            "example": "media_player.marantz"
-          },
-          "sound_mode": {
-            "description": "Name of the sound mode to switch to.",
-            "example": "Music"
-          }
-        },
-        "description": "Send the media player the command to change sound mode."
-      },
-      "play_media": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to seek media on",
-            "example": "media_player.living_room_chromecast"
-          },
-          "media_content_id": {
-            "description": "The ID of the content to play. Platform dependent.",
-            "example": "https://home-assistant.io/images/cast/splash.png"
-          },
-          "media_content_type": {
-            "description": "The type of the content to play. Must be one of image, music, tvshow, video, episode, channel or playlist",
-            "example": "music"
-          }
-        },
-        "description": "Send the media player the command for playing media."
-      },
-      "shuffle_set": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to set.",
-            "example": "media_player.spotify"
-          },
-          "shuffle": {
-            "description": "True/false for enabling/disabling shuffle.",
-            "example": true
-          }
-        },
-        "description": "Set shuffling state."
-      },
-      "clear_playlist": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to change source on.",
-            "example": "media_player.living_room_chromecast"
-          }
-        },
-        "description": "Send the media player the command to clear players playlist."
+        "description": "Toggles a switch state."
       },
       "turn_on": {
         "fields": {
           "entity_id": {
-            "description": "Name(s) of entities to turn on.",
-            "example": "media_player.living_room_chromecast"
+            "description": "Name(s) of entities to turn on",
+            "example": "switch.living_room"
           }
         },
-        "description": "Turn a media player power on."
-      },
-      "volume_down": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to turn volume down on.",
-            "example": "media_player.living_room_sonos"
-          }
-        },
-        "description": "Turn a media player volume down."
-      },
-      "media_pause": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to pause on.",
-            "example": "media_player.living_room_sonos"
-          }
-        },
-        "description": "Send the media player the command for pause."
-      },
-      "media_stop": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to stop on.",
-            "example": "media_player.living_room_sonos"
-          }
-        },
-        "description": "Send the media player the stop command."
-      }
-    },
-    "tts": {
-      "clear_cache": {
-        "fields": {},
-        "description": "Remove cache files and RAM cache."
-      },
-      "google_say": {
-        "fields": {},
-        "description": ""
-      }
-    },
-    "recorder": {
-      "purge": {
-        "fields": {
-          "keep_days": {
-            "description": "Number of history days to keep in database after purge. Value >= 0.",
-            "example": 2
-          },
-          "repack": {
-            "description": "Attempt to save disk space by rewriting the entire database file.",
-            "example": true
-          }
-        },
-        "description": "Start purge task - delete events and states older than x days, according to keep_days service data."
-      }
-    },
-    "logbook": {
-      "log": {
-        "fields": {},
-        "description": ""
-      }
-    },
-    "system_log": {
-      "write": {
-        "fields": {},
-        "description": ""
-      },
-      "clear": {
-        "fields": {},
-        "description": ""
+        "description": "Turn a switch on."
       }
     },
     "group": {
-      "reload": {
-        "fields": {},
-        "description": "Reload group configuration."
-      },
-      "set_visibility": {
-        "fields": {
-          "entity_id": {
-            "description": "Name(s) of entities to set value.",
-            "example": "group.travel"
-          },
-          "visible": {
-            "description": "True if group should be shown or False if it should be hidden.",
-            "example": true
-          }
-        },
-        "description": "Hide or show a group."
-      },
-      "remove": {
-        "fields": {
-          "object_id": {
-            "description": "Group id and part of entity id.",
-            "example": "test_group"
-          }
-        },
-        "description": "Remove a user group."
-      },
       "set": {
         "fields": {
           "object_id": {
@@ -606,20 +248,378 @@
           }
         },
         "description": "Create/Update a user group."
+      },
+      "set_visibility": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to set value.",
+            "example": "group.travel"
+          },
+          "visible": {
+            "description": "True if group should be shown or False if it should be hidden.",
+            "example": true
+          }
+        },
+        "description": "Hide or show a group."
+      },
+      "remove": {
+        "fields": {
+          "object_id": {
+            "description": "Group id and part of entity id.",
+            "example": "test_group"
+          }
+        },
+        "description": "Remove a user group."
+      },
+      "reload": {
+        "fields": {},
+        "description": "Reload group configuration."
       }
     },
-    "cloud": {
-      "remote_disconnect": {
-        "fields": {},
-        "description": "Disconnect UI from NabuCasa cloud."
+    "recorder": {
+      "purge": {
+        "fields": {
+          "keep_days": {
+            "description": "Number of history days to keep in database after purge. Value >= 0.",
+            "example": 2
+          },
+          "repack": {
+            "description": "Attempt to save disk space by rewriting the entire database file.",
+            "example": true
+          }
+        },
+        "description": "Start purge task - delete events and states older than x days, according to keep_days service data."
+      }
+    },
+    "device_tracker": {
+      "see": {
+        "fields": {
+          "mac": {
+            "description": "MAC address of device",
+            "example": "FF:FF:FF:FF:FF:FF"
+          },
+          "dev_id": {
+            "description": "Id of device (find id in known_devices.yaml).",
+            "example": "phonedave"
+          },
+          "host_name": {
+            "description": "Hostname of device",
+            "example": "Dave"
+          },
+          "location_name": {
+            "description": "Name of location where device is located (not_home is away).",
+            "example": "home"
+          },
+          "gps": {
+            "description": "GPS coordinates where device is located (latitude, longitude).",
+            "example": "[51.509802, -0.086692]"
+          },
+          "gps_accuracy": {
+            "description": "Accuracy of GPS coordinates.",
+            "example": "80"
+          },
+          "battery": {
+            "description": "Battery level of device.",
+            "example": "100"
+          }
+        },
+        "description": "Control tracked device."
+      }
+    },
+    "persistent_notification": {
+      "dismiss": {
+        "fields": {
+          "notification_id": {
+            "description": "Target ID of the notification, which should be removed. [Required]",
+            "example": 1234
+          }
+        },
+        "description": "Remove a notification from the frontend."
       },
-      "remote_connect": {
+      "mark_read": {
         "fields": {},
-        "description": "Make instance UI available outside over NabuCasa cloud."
+        "description": ""
+      },
+      "create": {
+        "fields": {
+          "message": {
+            "description": "Message body of the notification. [Templates accepted]",
+            "example": "Please check your configuration.yaml."
+          },
+          "title": {
+            "description": "Optional title for your notification. [Optional, Templates accepted]",
+            "example": "Test notification"
+          },
+          "notification_id": {
+            "description": "Target ID of the notification, will replace a notification with the same Id. [Optional]",
+            "example": 1234
+          }
+        },
+        "description": "Show a notification in the frontend."
+      }
+    },
+    "system_log": {
+      "write": {
+        "fields": {},
+        "description": ""
+      },
+      "clear": {
+        "fields": {},
+        "description": ""
+      }
+    },
+    "media_player": {
+      "turn_off": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to turn off.",
+            "example": "media_player.living_room_chromecast"
+          }
+        },
+        "description": "Turn a media player power off."
+      },
+      "volume_down": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to turn volume down on.",
+            "example": "media_player.living_room_sonos"
+          }
+        },
+        "description": "Turn a media player volume down."
+      },
+      "media_play": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to play on.",
+            "example": "media_player.living_room_sonos"
+          }
+        },
+        "description": "Send the media player the command for play."
+      },
+      "toggle": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to toggle.",
+            "example": "media_player.living_room_chromecast"
+          }
+        },
+        "description": "Toggles a media player power state."
+      },
+      "turn_on": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to turn on.",
+            "example": "media_player.living_room_chromecast"
+          }
+        },
+        "description": "Turn a media player power on."
+      },
+      "media_play_pause": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to toggle play/pause state on.",
+            "example": "media_player.living_room_sonos"
+          }
+        },
+        "description": "Toggle media player play/pause state."
+      },
+      "play_media": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to seek media on",
+            "example": "media_player.living_room_chromecast"
+          },
+          "media_content_id": {
+            "description": "The ID of the content to play. Platform dependent.",
+            "example": "https://home-assistant.io/images/cast/splash.png"
+          },
+          "media_content_type": {
+            "description": "The type of the content to play. Must be one of image, music, tvshow, video, episode, channel or playlist",
+            "example": "music"
+          }
+        },
+        "description": "Send the media player the command for playing media."
+      },
+      "media_seek": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to seek media on.",
+            "example": "media_player.living_room_chromecast"
+          },
+          "seek_position": {
+            "description": "Position to seek to. The format is platform dependent.",
+            "example": 100
+          }
+        },
+        "description": "Send the media player the command to seek in current playing media."
+      },
+      "media_pause": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to pause on.",
+            "example": "media_player.living_room_sonos"
+          }
+        },
+        "description": "Send the media player the command for pause."
+      },
+      "volume_up": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to turn volume up on.",
+            "example": "media_player.living_room_sonos"
+          }
+        },
+        "description": "Turn a media player volume up."
+      },
+      "media_stop": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to stop on.",
+            "example": "media_player.living_room_sonos"
+          }
+        },
+        "description": "Send the media player the stop command."
+      },
+      "select_source": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to change source on.",
+            "example": "media_player.media_player.txnr535_0009b0d81f82"
+          },
+          "source": {
+            "description": "Name of the source to switch to. Platform dependent.",
+            "example": "video1"
+          }
+        },
+        "description": "Send the media player the command to change input source."
+      },
+      "volume_mute": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to mute.",
+            "example": "media_player.living_room_sonos"
+          },
+          "is_volume_muted": {
+            "description": "True/false for mute/unmute.",
+            "example": true
+          }
+        },
+        "description": "Mute a media player's volume."
+      },
+      "media_next_track": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to send next track command to.",
+            "example": "media_player.living_room_sonos"
+          }
+        },
+        "description": "Send the media player the command for next track."
+      },
+      "volume_set": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to set volume level on.",
+            "example": "media_player.living_room_sonos"
+          },
+          "volume_level": {
+            "description": "Volume level to set as float.",
+            "example": 0.6
+          }
+        },
+        "description": "Set a media player's volume level."
+      },
+      "media_previous_track": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to send previous track command to.",
+            "example": "media_player.living_room_sonos"
+          }
+        },
+        "description": "Send the media player the command for previous track."
+      },
+      "clear_playlist": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to change source on.",
+            "example": "media_player.living_room_chromecast"
+          }
+        },
+        "description": "Send the media player the command to clear players playlist."
+      },
+      "shuffle_set": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to set.",
+            "example": "media_player.spotify"
+          },
+          "shuffle": {
+            "description": "True/false for enabling/disabling shuffle.",
+            "example": true
+          }
+        },
+        "description": "Set shuffling state."
+      },
+      "select_sound_mode": {
+        "fields": {
+          "entity_id": {
+            "description": "Name(s) of entities to change sound mode on.",
+            "example": "media_player.marantz"
+          },
+          "sound_mode": {
+            "description": "Name of the sound mode to switch to.",
+            "example": "Music"
+          }
+        },
+        "description": "Send the media player the command to change sound mode."
+      }
+    },
+    "logbook": {
+      "log": {
+        "fields": {},
+        "description": ""
+      }
+    },
+    "automation": {
+      "turn_off": {
+        "fields": {
+          "entity_id": {
+            "description": "Name of the automation to turn off.",
+            "example": "automation.notify_home"
+          }
+        },
+        "description": "Disable an automation."
+      },
+      "trigger": {
+        "fields": {
+          "entity_id": {
+            "description": "Name of the automation to trigger.",
+            "example": "automation.notify_home"
+          }
+        },
+        "description": "Trigger the action of an automation."
+      },
+      "turn_on": {
+        "fields": {
+          "entity_id": {
+            "description": "Name of the automation to turn on.",
+            "example": "automation.notify_home"
+          }
+        },
+        "description": "Enable an automation."
+      },
+      "toggle": {
+        "fields": {
+          "entity_id": {
+            "description": "Name of the automation to toggle on/off.",
+            "example": "automation.notify_home"
+          }
+        },
+        "description": "Toggle an automation."
+      },
+      "reload": {
+        "fields": {},
+        "description": "Reload the automation configuration."
       }
     }
-  },
-  "success": true,
-  "type": "result",
-  "id": 4
+  }
 }

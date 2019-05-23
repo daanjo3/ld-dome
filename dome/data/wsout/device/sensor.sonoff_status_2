@@ -1,30 +1,30 @@
 {
-  "last_updated": "2019-05-09T10:07:47.874153+00:00",
-  "entity_id": "sensor.sonoff_status_2",
-  "context": {
-    "user_id": null,
-    "parent_id": null,
-    "id": "ff215b0e821e4f11a0b68d798ac344ff"
-  },
+  "last_changed": "2019-05-21T11:32:28.943937+00:00",
+  "last_updated": "2019-05-21T11:42:29.205509+00:00",
+  "state": "70",
   "attributes": {
     "unit_of_measurement": " ",
-    "BootCount": 12,
-    "Module": "Sonoff Basic",
-    "Uptime": "23T19:20:11",
-    "IPAddress": "192.168.1.111",
-    "SDK": "1.5.3(aec24ac9)",
-    "LoadAvg": 19,
-    "MqttCount": 2,
-    "WiFi Downtime": "0T00:00:04",
     "BuildDateTime": "2019-03-19T12:37:17",
-    "Version": "6.5.0(release-sonoff)",
     "Core": "2_3_0",
-    "friendly_name": "Kamerlamp status",
-    "RSSI": "76",
-    "SaveCount": 202,
+    "BootCount": 14,
+    "MqttCount": 1,
+    "Version": "6.5.0(release-sonoff)",
     "RestartReason": "Power on",
+    "SDK": "1.5.3(aec24ac9)",
+    "RSSI": "70",
+    "Module": "Sonoff Basic",
+    "SaveCount": 210,
+    "LoadAvg": 19,
+    "WiFi Downtime": "0T00:00:04",
+    "IPAddress": "192.168.1.111",
+    "Uptime": "0T21:01:26",
+    "friendly_name": "Kamerlamp status",
     "WiFi LinkCount": 1
   },
-  "last_changed": "2019-05-09T10:07:47.874153+00:00",
-  "state": "76"
+  "context": {
+    "id": "6cc8878b222a4a28b3b371fa116213dd",
+    "parent_id": null,
+    "user_id": null
+  },
+  "entity_id": "sensor.sonoff_status_2"
 }

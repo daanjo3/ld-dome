@@ -1,9 +1,11 @@
 import os
 from rdflib import Namespace
 
-DEVICE_WHITELIST = ['device_tracker.48_60_5f_84_f3_e7', 'device_tracker.donkermobile', 'group.all_devices', 'group.all_switches', 'media_player.living_room_tv',
-    'person.daan', 'person.janine', 'sensor.alarmtrigger', 'sensor.sonoff_status', 'sensor.sonoff_status_2', 'sun.sun', 'switch.sonoff', 'switch.sonoff_2', 'zone.home'
+DEVICE_WHITELIST = ['device_tracker.48_60_5f_84_f3_e7', 'device_tracker.64_a2_f9_f5_de_ac', 'media_player.living_room_tv',
+    'person.daan', 'person.janine', 'sensor.alarmtrigger', 'sensor.sonoff_status', 'sensor.sonoff_status_2', 'sun.sun', 'switch.sonoff', 'switch.sonoff_2',
 ]
+
+ENTITY_WHITELIST = ['device_tracker', 'switch', 'sensor', 'media_player']
 
 PATH = os.getcwd() + '/dome/'
 
@@ -20,3 +22,4 @@ PARSER_IN_DEVICE = WEBSOCKET_OUT_DEVICE
 DOME_NAMESPACE = Namespace('http://kadjanderman.com/ontology/')
 DOME_DATA_NAMESPACE = Namespace('http://kadjanderman.com/resource/')
 PATH_STORE = PATH + 'data/store.nt'
+PATH_SLEEPYCAT = PATH + 'data/db'

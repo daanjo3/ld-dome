@@ -1,14 +1,14 @@
 {
-  "last_updated": "2019-05-08T23:08:30.715679+00:00",
-  "entity_id": "switch.sonoff",
-  "context": {
-    "user_id": null,
-    "parent_id": null,
-    "id": "7cc4cca4d9ec41068c15b44f37474fe0"
-  },
+  "last_changed": "2019-05-21T11:33:24.011889+00:00",
+  "last_updated": "2019-05-21T11:33:24.011889+00:00",
+  "state": "on",
   "attributes": {
     "friendly_name": "Nachtlamp"
   },
-  "last_changed": "2019-05-08T23:08:30.715679+00:00",
-  "state": "off"
+  "context": {
+    "id": "edf8f621cbc3481687b265be79ca2212",
+    "parent_id": null,
+    "user_id": null
+  },
+  "entity_id": "switch.sonoff"
 }

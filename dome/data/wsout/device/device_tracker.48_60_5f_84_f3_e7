@@ -1,17 +1,15 @@
 {
-  "last_updated": "2019-04-28T09:46:35.008357+00:00",
-  "entity_id": "device_tracker.48_60_5f_84_f3_e7",
-  "context": {
-    "user_id": null,
-    "parent_id": null,
-    "id": "9e94f6a1dd5a4f31a82237b0a12c05d8"
-  },
+  "last_changed": "2019-05-21T11:31:52.486591+00:00",
+  "last_updated": "2019-05-21T11:31:52.486591+00:00",
+  "state": "not_home",
   "attributes": {
-    "friendly_name": "Janine",
-    "ip": "192.168.1.103",
     "source_type": "router",
-    "scanner": "NmapDeviceScanner"
+    "friendly_name": "Janine's Telefoon"
   },
-  "last_changed": "2019-04-28T09:46:35.008357+00:00",
-  "state": "not_home"
+  "context": {
+    "id": "a8c16d927f6a48b3b3076fdb0e0d4400",
+    "parent_id": null,
+    "user_id": null
+  },
+  "entity_id": "device_tracker.48_60_5f_84_f3_e7"
 }
