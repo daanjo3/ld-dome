@@ -5,22 +5,9 @@ import os
 from websockets import connect
 
 from dome.config import *
+from dome.lib.observable import Observable
 
 from dome.parser.parser_direct import parseEntityDump, parseEvent
-
-class Observable(object):
-    def __init__(self):
-        self.callbacks = []
-    
-    def register(self, callback):
-        self.callbacks.append(callback)
-    
-    def unregister(self, callback):
-        self.callbacks.remove(callback)
-    
-    def notify(self, *args, **kwargs):
-        for callback in self.callbacks:
-            callback(*args, **kwargs)
 
 async def loadEntities():
     async with connect('ws://192.168.1.100:8123/api/websocket') as websocket:
@@ -39,6 +26,11 @@ async def loadEntities():
                 return
 
 class WSEventListener(Observable):
+    def start(self, loop):
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(self.listenEvents())
+        loop.run_forever()
+
     async def listenEvents(self):
         async with connect('ws://192.168.1.100:8123/api/websocket') as websocket:
             auth = json.dumps({'type': 'auth', 'access_token': ACCESS_TOKEN})
@@ -52,9 +44,13 @@ class WSEventListener(Observable):
                 message = json.loads(message_raw)
 
                 if (message['type'] == 'event' and message['id'] == 1):
-                    self.notify('--- Parsing event ---')
                     parseEvent(message['event']['data'])
-                    self.notify('--- Finished event parsing ---')
+                    self.notify({
+                        'domain': 'websocket',
+                        'type': 'update',
+                        'entity': message['event']['data']['entity_id'],
+                        'data': message['event']['data']
+                    })
 
 async def callService(domain, service, entity_id):
     async with connect('ws://192.168.1.100:8123/api/websocket') as websocket:

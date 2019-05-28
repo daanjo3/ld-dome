@@ -1,15 +1,17 @@
 import os
-import dome.config as config
 import uuid
 
 from rdflib import plugin, Graph, RDF, RDFS, URIRef, Literal
 from rdflib.store import NO_STORE, VALID_STORE, Store
 from bsddb3.db import DBNoSuchFileError
 
+import dome.config as config
+from dome.lib.observable import Observable
+
 DOME = config.DOME_NAMESPACE
 DOME_DATA = config.DOME_DATA_NAMESPACE
 
-class KnowledgeGraph():
+class KnowledgeGraph(Observable):
     ident = URIRef("domeld")
     graph = None
     path = None
@@ -42,6 +44,7 @@ class KnowledgeGraph():
         self.graph.add( (subject, DOME.homeassistanttype, Literal(ha_type)) )
 
         self.closeGraph()
+        self.notify(domain='graph', type='add', entity=subject)
         return subject
 
     def add_property(self, label, value, updated, changed):
@@ -56,6 +59,7 @@ class KnowledgeGraph():
         self.graph.add( (subject, DOME.last_changed, Literal(changed)) )
 
         self.closeGraph()
+        self.notify(domain='graph', type='add', entity=subject)
         return subject
     
     def add_home(self, label):
@@ -67,6 +71,7 @@ class KnowledgeGraph():
         self.graph.add( (subject, RDFS.label, Literal(label)) )
 
         self.closeGraph()
+        self.notify(domain='graph', type='add', entity=subject)
         return subject
     
     def add_room(self, label, home):
@@ -79,6 +84,7 @@ class KnowledgeGraph():
         self.graph.add( (subject, DOME.partOf, URIRef(home)))
 
         self.closeGraph()
+        self.notify(domain='graph', type='add', entity=subject)
         return subject
     
     def add_foi(self, label, location, properties):
@@ -93,6 +99,7 @@ class KnowledgeGraph():
             self.graph.add( (subject, DOME.hasproperty, URIRef(prop)) )
         
         self.closeGraph()
+        self.notify(domain='graph', type='add', entity=subject)
         return subject
 
     # -----------------  Modification of triples --------------------------
