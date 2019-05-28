@@ -11,16 +11,30 @@ from dome.lib.observable import Observable
 DOME = config.DOME_NAMESPACE
 DOME_DATA = config.DOME_DATA_NAMESPACE
 
+# def singleton(cls):
+#     return cls()
+
+# @singleton
 class KnowledgeGraph(Observable):
     ident = URIRef("domeld")
     graph = None
     path = None
 
     def __init__(self, store_path=config.PATH_SLEEPYCAT):
+        super().__init__()
         self.path = store_path
         self.openGraph()
         if (os.path.isfile(store_path)):
             self.graph.parse(store_path, format='turtle')
+    
+    def kb_notify(self, op, t, entity):
+        print('kb_notify')
+        self.notify({
+            'domain': 'graph',
+            'op': op,
+            'type': t,
+            'entity': entity
+        })
     
     def remove(self, entity, field, value):
         self.openGraph()
@@ -44,7 +58,7 @@ class KnowledgeGraph(Observable):
         self.graph.add( (subject, DOME.homeassistanttype, Literal(ha_type)) )
 
         self.closeGraph()
-        self.notify(domain='graph', type='add', entity=subject)
+        self.kb_notify('add', DOME.Device, subject)
         return subject
 
     def add_property(self, label, value, updated, changed):
@@ -59,7 +73,7 @@ class KnowledgeGraph(Observable):
         self.graph.add( (subject, DOME.last_changed, Literal(changed)) )
 
         self.closeGraph()
-        self.notify(domain='graph', type='add', entity=subject)
+        self.kb_notify('add', DOME.Property, subject)
         return subject
     
     def add_home(self, label):
@@ -71,7 +85,7 @@ class KnowledgeGraph(Observable):
         self.graph.add( (subject, RDFS.label, Literal(label)) )
 
         self.closeGraph()
-        self.notify(domain='graph', type='add', entity=subject)
+        self.kb_notify('add', DOME.Home, subject)
         return subject
     
     def add_room(self, label, home):
@@ -84,7 +98,7 @@ class KnowledgeGraph(Observable):
         self.graph.add( (subject, DOME.partOf, URIRef(home)))
 
         self.closeGraph()
-        self.notify(domain='graph', type='add', entity=subject)
+        self.kb_notify('add', DOME.Room, subject)
         return subject
     
     def add_foi(self, label, location, properties):
@@ -99,7 +113,62 @@ class KnowledgeGraph(Observable):
             self.graph.add( (subject, DOME.hasproperty, URIRef(prop)) )
         
         self.closeGraph()
-        self.notify(domain='graph', type='add', entity=subject)
+        self.kb_notify('add', DOME.FeatureOfInterest, subject)
+        return subject
+
+    def add_automation(self, label, trigger, action, enabled=True):
+        subject = DOME_DATA['automation/'+str(uuid.uuid4())]
+
+        self.openGraph()
+
+        self.graph.add( (subject, RDF.type, DOME.Automation) )
+        self.graph.add( (subject, RDFS.label, Literal(label)) )
+        self.graph.add( (subject, DOME.triggeredby, URIRef(trigger)) )
+        self.graph.add( (subject, DOME.performsaction, URIRef(action)) )
+        self.graph.add( (subject, DOME.enabled, Literal(enabled)) )
+
+        self.closeGraph()
+        self.kb_notify('add', DOME.Automation, subject)
+        return subject
+
+    def add_trigger(self, condition):
+        subject = DOME_DATA['trigger/'+str(uuid.uuid4())]
+
+        self.openGraph()
+
+        self.graph.add( (subject, RDF.type, DOME.Trigger) )
+        self.graph.add( (subject, DOME.hascondition, URIRef(condition)) )
+
+        self.closeGraph()
+        self.kb_notify('add', DOME.Trigger, subject)
+        return subject
+    
+    def add_action(self, label, actuates, command):
+        subject = DOME_DATA['action/'+str(uuid.uuid4())]
+
+        self.openGraph()
+
+        self.graph.add( (subject, RDF.type, DOME.Action) )
+        self.graph.add( (subject, RDFS.label, Literal(label)) )
+        self.graph.add( (subject, DOME.acutates, URIRef(actuates)) )
+        self.graph.add( (subject, DOME.command, Literal(command)) )
+
+        self.closeGraph()
+        self.kb_notify('add', DOME.Action, subject)
+        return subject
+
+    def add_condition(self, label, observes, targetState):
+        subject = DOME_DATA['condition/'+str(uuid.uuid4())]
+
+        self.openGraph()
+        
+        self.graph.add( (subject, RDF.type, DOME.Condition) )
+        self.graph.add( (subject, RDFS.label, Literal(label)) )
+        self.graph.add( (subject, DOME.observes, URIRef(observes)) )
+        self.graph.add( (subject, DOME.targetState, Literal(targetState)) )
+
+        self.closeGraph()
+        self.kb_notify('add', DOME.Condition, subject)
         return subject
 
     # -----------------  Modification of triples --------------------------
