@@ -51,6 +51,7 @@ def status_print_type(t_label, t):
         print('----- {} -----'.format(t_label))
         for entity in entity_list:
             print("{:<35}: {}".format(entity[str(RDFS.label)], entity[str(DOME.value)]))
+            print("{}\n".format(entity['id']))
         print()
     else:
         entity_list = graph.get_entities_by_type(t, mode=1)

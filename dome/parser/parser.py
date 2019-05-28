@@ -1,83 +1,88 @@
-# Built-in modules
+# Parser which is directly called from the websocket output
+
 import json
 import os
 import copy
 
-# Installed modules
 from rdflib.namespace import RDF, RDFS
 from rdflib import Literal
 
-# Custom modules
 import dome.config as config
 from dome.util.kb import KnowledgeGraph
 
 DOME = config.DOME_NAMESPACE
 DOME_DATA = config.DOME_DATA_NAMESPACE
 
-WHITELIST = ['switch', 'sensor', 'media_player', 'device_tracker']
+graph = KnowledgeGraph()
 
-class HALDParser():
-    fp_in = config.PARSER_IN_DEVICE
-    graph = None
+# Parse a single device and create a new device entity
+def parseDevice(device):
+    label = None
+    ha_name = str(device['entity_id'])
+    ha_type = ha_name.split('.')[0]
+    actuator = ha_type in ['media_player', 'switch']
 
-    def __init__(self, graph, fp_in=config.PARSER_IN_DEVICE):
-        self.graph = graph
-        self.fp_in = fp_in
-
-    # Function to call when parsing
-    def parse(self):
-        num_parsed = 0
-        for f in self.get_files():
-            device_raw = self.load(self.fp_in + f)
-            self.parse_device(device_raw)
-            num_parsed += 1
-            
-        return num_parsed
+    try:
+        label = device['attributes']['friendly_name']
+    except KeyError:
+        label = device['entity_id']
     
-    # Function which parses all devices
-    def parse_device(self, device_raw):
-        label, actuates, observes, ha_type = None, None, None, None
+    prop_ref = parseProperty(device)
 
-        # Check whether the device is an actuator or sensor
-        ha_name = str(device_raw['entity_id'])
+    graph.add_device(label, actuator, prop_ref, ha_name, ha_type)
+
+# Parse a single property and create a new property entity
+def parseProperty(device):
+    prop_ref = graph.add_property(
+        device['entity_id'],
+        device['state'],
+        device['last_updated'],
+        device['last_changed']
+    )
+    return prop_ref
+
+
+def updateProperty(kb_entity, state):
+    kb_dev = graph.get_entity_by_id(str(kb_entity))
+    kb_prop = None
+    if (str(DOME.actuates) in kb_dev.keys()):
+        kb_prop = graph.get_entity_by_id(kb_dev[str(DOME.actuates)])
+    elif (str(DOME.observes) in kb_dev.keys()):
+        kb_prop = graph.get_entity_by_id(kb_dev[str(DOME.observes)])
+    else:
+        print("Cannot update updateProperty")
+
+    graph.modify_literal(kb_prop['id'], DOME.last_changed, state['last_changed'])
+    graph.modify_literal(kb_prop['id'], DOME.last_updated, state['last_updated'])
+    graph.modify_literal(kb_prop['id'], DOME.value, state['state'])
+
+def parseEntityDump(ha_entities):
+    for entity in ha_entities:
+        print(entity['entity_id'])
+        ha_name = entity['entity_id']
         ha_type = ha_name.split('.')[0]
-        actuator = ha_type in ['media_player', 'switch']
 
-        # A friendly name is preferred over an entity id as label
-        try:
-            label = device_raw['attributes']['friendly_name']
-        except KeyError :
-            label = device_raw['entity_id']
-        
-        # Parse the 'state'-property and link to this entity
-        prop_ref = self.parse_property(device_raw)
+        if (ha_type in config.ENTITY_WHITELIST and ha_name != 'sensor.yr_symbol'):
+            kb_entity = graph.get_entity(pred=DOME.homeassistantname, obj=ha_name, isURI=False)
+            if (len(kb_entity) == 0): kb_entity = None
+            if (kb_entity is not None):
+                updateProperty(kb_entity[0], entity)
+            else:
+                parseDevice(entity)
 
-        # Finally add the device to the graph
-        self.graph.add_device(label, actuator, prop_ref, ha_name, ha_type)
-    
-    # Currently only parses states, not attributes
-    def parse_property(self, device_raw):
-        prop_ref = self.graph.add_property(device_raw['entity_id'], device_raw['state'], 
-            device_raw['last_updated'], device_raw['last_changed'])
-        return prop_ref
+def parseEvent(event):
+    ha_name = event['entity_id']
+    kb_entity = graph.get_entity(pred=DOME.homeassistantname, obj=ha_name, isURI=False)
 
-    # Returns a list of files which can be parsed by this parser
-    def get_files(self):
-        res = []
-        for f in os.listdir(self.fp_in):
-            precursor = (str(f).split('.'))[0]
-            if (precursor in WHITELIST):
-                res.append(f)
-        return res
+    if (len(kb_entity) == 0): kb_entity = None
 
-    # Returns a json object obtained from a file
-    def load(self, fp):
-        device = None
-        with open(fp, 'r') as f:
-            device = json.load(f)
-        return device
-
-if __name__ == "__main__":
-    graph = KnowledgeGraph()
-    parser = HALDParser(graph)
-    parser.parse()
+    if (kb_entity is not None):
+        updateProperty(kb_entity[0], event['new_state'])
+    else:
+        print(ha_name)
+        print("Cannot update entity")
+        print("Please update device list")
+        # TODO figure out where to do the following:
+        # loop = asyncio.get_event_loop()
+        # loop.run_until_complete(loadEntities())
+        # loop.close()
