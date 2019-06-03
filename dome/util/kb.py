@@ -11,10 +11,10 @@ from dome.lib.observable import Observable
 DOME = config.DOME_NAMESPACE
 DOME_DATA = config.DOME_DATA_NAMESPACE
 
-# def singleton(cls):
-#     return cls()
+def singleton(cls):
+    return cls()
 
-# @singleton
+@singleton
 class KnowledgeGraph(Observable):
     ident = URIRef("domeld")
     graph = None
@@ -28,12 +28,12 @@ class KnowledgeGraph(Observable):
             self.graph.parse(store_path, format='turtle')
     
     def kb_notify(self, op, t, entity):
-        print('kb_notify')
         self.notify({
             'domain': 'graph',
             'op': op,
-            'type': t,
-            'entity': entity
+            'type': str(t),
+            'entity': str(entity),
+            'data': self.get_entity_by_id(entity)
         })
     
     def remove(self, entity, field, value):
@@ -116,7 +116,7 @@ class KnowledgeGraph(Observable):
         self.kb_notify('add', DOME.FeatureOfInterest, subject)
         return subject
 
-    def add_automation(self, label, trigger, action, enabled=True):
+    def add_automation(self, label, trigger, actions, enabled=True):
         subject = DOME_DATA['automation/'+str(uuid.uuid4())]
 
         self.openGraph()
@@ -124,7 +124,8 @@ class KnowledgeGraph(Observable):
         self.graph.add( (subject, RDF.type, DOME.Automation) )
         self.graph.add( (subject, RDFS.label, Literal(label)) )
         self.graph.add( (subject, DOME.triggeredby, URIRef(trigger)) )
-        self.graph.add( (subject, DOME.performsaction, URIRef(action)) )
+        for action in actions:
+            self.graph.add( (subject, DOME.performsaction, URIRef(action)) )
         self.graph.add( (subject, DOME.enabled, Literal(enabled)) )
 
         self.closeGraph()
@@ -150,7 +151,7 @@ class KnowledgeGraph(Observable):
 
         self.graph.add( (subject, RDF.type, DOME.Action) )
         self.graph.add( (subject, RDFS.label, Literal(label)) )
-        self.graph.add( (subject, DOME.acutates, URIRef(actuates)) )
+        self.graph.add( (subject, DOME.actuates, URIRef(actuates)) )
         self.graph.add( (subject, DOME.command, Literal(command)) )
 
         self.closeGraph()
@@ -241,14 +242,17 @@ class KnowledgeGraph(Observable):
             return str(list(self.graph[URIRef(entity_id):RDFS.label:])[0])
         ret = {'id': str(entity_id)}
         for prop in list(self.graph[URIRef(entity_id)::]):
+            prop_key = str(prop[0])
+            prop_value = str(prop[1])
 
             # If multiple objects share a predicate, store as list
-            if (str(prop[0]) in ret):
-                if (not isinstance(ret[str(prop[0])], list)):
-                    ret[str(prop[0])] = [ret[str(prop[0])]]
-                ret[str(prop[0])].append(str(prop[1]))
+            if (prop_key in ret):
+                if (not isinstance(ret[prop_key], list)):
+                    ret[prop_key] = [ret[prop_key]]
+                
+                ret[prop_key].append(prop_value)
             else:
-                ret[str(prop[0])] = str(prop[1])
+                ret[prop_key] = prop_value
         self.closeGraph()
         return ret
     

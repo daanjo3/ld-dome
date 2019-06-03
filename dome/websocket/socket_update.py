@@ -30,13 +30,14 @@ class HAStateListener(Observable):
                 message = json.loads(message_raw)
 
                 if (message['type'] == 'event' and message['id'] == 1):
-                    parseEvent(message['event']['data'])
-                    self.notify({
-                        'domain': 'websocket',
-                        'type': 'update',
-                        'entity': message['event']['data']['entity_id'],
-                        'data': message['event']['data']
-                    })
+                    kb_prop = parseEvent(message['event']['data'])
+                    if (kb_prop is not None):
+                        self.notify({
+                            'domain': 'websocket',
+                            'op': 'update',
+                            'prop': kb_prop,
+                            'data': message['event']['data']
+                        })
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()

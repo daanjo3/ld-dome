@@ -8,8 +8,6 @@ from dome.util import cli_configure
 DOME = config.DOME_NAMESPACE
 from rdflib import RDFS
 
-graph = KnowledgeGraph()
-
 types = [
     {'name': 'Home', 'value': DOME.Home},
     {'name': 'Room', 'value': DOME.Room},
@@ -47,18 +45,18 @@ SCREEN_STATUS_TYPE = [
 
 def status_print_type(t_label, t):
     if (t == DOME.Property):
-        entity_list = graph.get_entities_by_type(t, mode=2)
+        entity_list = KnowledgeGraph.get_entities_by_type(t, mode=2)
         print('----- {} -----'.format(t_label))
         for entity in entity_list:
             print("{:<35}: {}".format(entity[str(RDFS.label)], entity[str(DOME.value)]))
             print("{}\n".format(entity['id']))
         print()
     else:
-        entity_list = graph.get_entities_by_type(t, mode=1)
+        entity_list = KnowledgeGraph.get_entities_by_type(t, mode=2)
         print('----- {} -----'.format(t_label))
         for entity in entity_list:
-            print(entity)
-            print()
+            print(entity['id'])
+            print('{}\n'.format(entity[str(RDFS.label)]))
 
 def status_list_all():
     cli_configure.clear()

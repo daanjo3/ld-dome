@@ -7,8 +7,6 @@ from dome.util.kb import KnowledgeGraph
 DOME = config.DOME_NAMESPACE
 from rdflib import RDFS
 
-graph = KnowledgeGraph()
-
 def clear():
     import subprocess, platform
 
@@ -57,7 +55,7 @@ SCREEN_ADD_ROOM = [
     }
 ]
 def set_add_room():
-    home_list = graph.get_entities_by_type(DOME.Home, mode=2)
+    home_list = KnowledgeGraph.get_entities_by_type(DOME.Home, mode=2)
     SCREEN_ADD_ROOM[1]['choices'] = [{
         'name': home[str(RDFS.label)],
         'value': home['id']
@@ -85,8 +83,8 @@ SCREEN_ADD_FOI = [
     }
 ]
 def set_add_foi():
-    loc_list = graph.get_entities_by_type(DOME.Home, mode=2) + graph.get_entities_by_type(DOME.Room, mode=2)
-    prop_list = graph.get_entities_by_type(DOME.Property, mode=2)
+    loc_list = KnowledgeGraph.get_entities_by_type(DOME.Home, mode=2) + KnowledgeGraph.get_entities_by_type(DOME.Room, mode=2)
+    prop_list = KnowledgeGraph.get_entities_by_type(DOME.Property, mode=2)
 
     SCREEN_ADD_FOI[1]['choices'] = [{
         'name': loc[str(RDFS.label)],
@@ -131,19 +129,19 @@ def config_add_entities():
 
 def config_add_home():
     answer = prompt(SCREEN_ADD_HOME)
-    graph.add_home(answer['label'])
+    KnowledgeGraph.add_home(answer['label'])
     print(answer)
 
 def config_add_room():
     set_add_room()
     answer = prompt(SCREEN_ADD_ROOM)
-    graph.add_room(answer['label'], answer['partOf'])
+    KnowledgeGraph.add_room(answer['label'], answer['partOf'])
     print(answer)
 
 def config_add_foi():
     set_add_foi()
     answer = prompt(SCREEN_ADD_FOI)
-    graph.add_foi(answer['label'], answer['locatedIn'], answer['hasProperty'])
+    KnowledgeGraph.add_foi(answer['label'], answer['locatedIn'], answer['hasProperty'])
     print(answer)
 
 if __name__ == "__main__":
