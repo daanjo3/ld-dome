@@ -1,0 +1,21 @@
+{
+  "last_changed": "2019-05-21T11:40:39.982386+00:00",
+  "last_updated": "2019-05-21T11:40:39.982386+00:00",
+  "state": "home",
+  "attributes": {
+    "editable": true,
+    "longitude": 4.7755,
+    "user_id": "80f3bc1cf57b44688909f1aefb7ff42b",
+    "id": "02d5eb65a1854bc1b61c8e871afce8a3",
+    "latitude": 51.5881,
+    "friendly_name": "Daan",
+    "gps_accuracy": 0,
+    "source": "device_tracker.64_a2_f9_f5_de_ac"
+  },
+  "context": {
+    "id": "b6b6d691444c4dd5b00e3abfb2621277",
+    "parent_id": null,
+    "user_id": null
+  },
+  "entity_id": "person.daan"
+}

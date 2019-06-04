@@ -1,0 +1,16 @@
+<!doctype html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>DomeLD</title>
+</head>
+<body id='index-body'>
+  <h1 id='index-header'>DomeLD Home</h1>
+
+  <div id='index-container-init'>
+    <a class='action index-btn' href="{{ url_for('init.home') }}"><button class='index-btn'>Initialization</button></a>
+  </div>
+
+  <div id='index-container-config'>
+    <a class='action index-btn' href="{{ url_for('init.home')}}"><button class='index-btn'>Configuration</button></a>
+  </div>
+</body>

@@ -1,0 +1,16 @@
+{% extends 'init_base.html' %}
+
+{% block header %}
+Home
+{% endblock %}
+
+{% block content %}
+    Insert a name for your home
+    <form method="post">
+        Name: <input type='text' name='hname' placeholder="myhome"><br>
+        <input type="submit" value="Save">
+    </form>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
