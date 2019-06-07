@@ -1,11 +1,23 @@
 from multiprocessing import Process
 
-from dome.util.KnowledgeGraph import KnowledgeGraph
 from dome.lib.observable import Observable
+from dome.lib.state import BaseState
+
+from dome.util.KnowledgeGraph import KnowledgeGraph
 from dome.automations.AutomationResolver import Resolver
+
 from dome.config import DOME_NAMESPACE as DOME
 
-class AutomationService(Process, Observable):
+class State(BaseState):
+    WAITING_READ_LOAD = (1, 'WAITING READ LOAD')
+    LOAD = (2, 'LOADING AUTOMATIONS')
+    WAITING_QUEUE = (3, 'WAITING FOR QUEUE')
+    PROCESSING = (4, 'PROCESSING UPDATE')
+    SPAWN = (5, 'SPAWNING WORKER')
+    TERMINATE = (7, 'TERMINATING WORKERS')
+
+class AutomationService(Process, Observable):    
+    state = State()
     pool = []
     kb_readable = None
     watchlist = []
@@ -15,7 +27,6 @@ class AutomationService(Process, Observable):
         Observable.__init__(self)
         self.queue = queue
         self.kb_readable = kb_readable
-        # self.loadAutomations()
     
     def register(self, callback):
         super(AutomationService, self).register(callback)
@@ -28,31 +39,33 @@ class AutomationService(Process, Observable):
                 resolver.register(callback)         
     
     def run(self):
-        self.notify('[{}] Starting service'.format(self.name))
+        self.update(State.WAITING_READ_LOAD)
+        self.kb_readable.wait()
+        self.update(State.LOAD)
         self.loadAutomations()
         try:
             while(True):
+                self.update(State.WAITING_QUEUE)
                 prop_ref = self.queue.get(block=True)
-                self.notify('[{}] Property Update received'.format(self.name))
+                self.update(State.PROCESSING)
                 automation_relevant = self.wakeAutomationList(prop_ref)
                 if (automation_relevant):
-                    self.notify('[{}] Spawning Automations'.format(self.name))
                     for automation in automation_relevant:
+                        self.update(State.SPAWN)
                         r = Resolver(self.kb_readable, automation)
                         self.registerNode(r)
                         self.pool.append(r)
                         r.start()
         
         except KeyboardInterrupt:
+            self.update(State.TERMINATE)
             for r in self.pool:
                 r.join()
+        self.update(State.FINISHED)
 
     # TODO Update to enable nested triggers
     def loadAutomations(self):
-        self.kb_readable.wait()
         automations = KnowledgeGraph.get_entities_by_type(DOME.Automation, mode=2)
-        self.notify('[{}] Loading Automations: {}'.format(self.name, len(automations)))
-        # self.notify('[{}] Automations:\n{}'.format(self.name, automations))
 
         for automation in automations:
             trigger = KnowledgeGraph.get_entity_by_id(automation[str(DOME.triggeredby)])
@@ -67,7 +80,6 @@ class AutomationService(Process, Observable):
                     'enabled': bool(automation[str(DOME.enabled)]),
                     'automation_id': str(automation['id'])
                 })
-        self.notify('[{}] Automation loading done.'.format(self.name))
     
     def wakeAutomationList(self, prop_ref):
         automation_list = []
@@ -75,3 +87,7 @@ class AutomationService(Process, Observable):
             if (watch['prop_ref'] == prop_ref and watch['enabled']):
                 automation_list.append(watch['automation_id'])
         return list(set(automation_list))
+    
+    def update(self, state):
+        self.state.update(state)
+        self.notify('[{}] {}'.format(self.name, self.state))

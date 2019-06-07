@@ -3,23 +3,22 @@ import asyncio
 
 from dome.util.KnowledgeGraph import KnowledgeGraph
 from dome.lib.observable import Observable
+from dome.lib.state import BaseState
 from dome.websocket.HAService import call
 
 from dome.config import DOME_NAMESPACE as DOME
 from rdflib.namespace import RDFS
 
-class ResolverState:
-    IDLE = 'IDLE'
-    WAITING_READ_VALIDATE = 'WAITING READ VALIDATE'
-    VALIDATING = 'VALIDATING'
-    WAITING_READ_PREPARE = 'WAITING READ PREPARE'
-    PREPARE = 'PREPARING'
-    SERVICE_CALL = 'CALLING SERVICE'
-    FINISHED = 'FINISHED'
-    ABORTED = 'ABORTED'
+class State(BaseState):
+    WAITING_READ_VALIDATE = (1, 'WAITING READ VALIDATE')
+    VALIDATING = (2, 'VALIDATING')
+    WAITING_READ_PREPARE = (3, 'WAITING READ PREPARE')
+    PREPARE = (4, 'PREPARING')
+    SERVICE_CALL = (5, 'CALLING SERVICE')
+    ABORTED = (0, 'ABORTED')
 
 class Resolver(Process, Observable):
-    state = ResolverState.IDLE
+    state = State()
 
     def __init__(self, kb_readable, automation_id):
         Process.__init__(self)
@@ -29,36 +28,30 @@ class Resolver(Process, Observable):
     
     def run(self):
         # Wait until the kb is readable and validate the trigger
-        self.state = ResolverState.WAITING_READ_VALIDATE
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.WAITING_READ_VALIDATE)
         self.kb_readable.wait()
-        self.state = ResolverState.VALIDATING
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.VALIDATING)
         valid = self.validate()
         if (not valid):
-            self.state = ResolverState.ABORTED
-            self.notify('[{}] {}'.format(self.name, self.state))
+            self.update(State.ABORTED)
             return
         
         # Wait until the kb is readable again and prepare
-        self.state = ResolverState.WAITING_READ_PREPARE
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.WAITING_READ_PREPARE)
         self.kb_readable.wait()
-        self.state = ResolverState.PREPARE
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.PREPARE)
         actions = self.prepare()
 
         # Call the HA service through the websocket
-        self.state = ResolverState.SERVICE_CALL
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.SERVICE_CALL)
         loop = asyncio.get_event_loop()
         tasks = []
         for action in actions:
             tasks.append(asyncio.ensure_future(call(action['domain'], action['service'], action['entity_id'])))
         loop.run_until_complete(asyncio.gather(*tasks))
 
-        self.state = ResolverState.FINISHED
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.FINISHED)
+    
     
     # TODO extend for nested triggers
     # Validate the trigger
@@ -103,3 +96,7 @@ class Resolver(Process, Observable):
         if (target_state == prop_state):
             return True
         return False
+    
+    def update(self, state):
+        self.state.update(state)
+        self.notify('[{}] {}'.format(self.name, self.state))

@@ -1,33 +1,33 @@
 from multiprocessing import Process
-from time import sleep
+
+from dome.lib.observable import Observable
+from dome.lib.state import BaseState
+from dome.lib.validate import validEntity
+
+from dome.util.KnowledgeGraph import KnowledgeGraph
 
 import dome.config as config
 DOME = config.DOME_NAMESPACE
-from dome.lib.validate import validEntity
-from dome.util.KnowledgeGraph import KnowledgeGraph
-from dome.lib.observable import Observable
 
 # Custom exception for the parser
 class ParseException(Exception):
         pass
     
-class ParserState:
-    IDLE = 'IDLE'
-    WAITING_READ = 'WAITING READ'
-    PREPARING = 'PREPARING'
-    WAITING_WRITE = 'WAITING_WRITE'
-    WRITING = 'WRITING'
-    FINISHED = 'FINISHED'
+class State(BaseState):
+    WAITING_READ = (1, 'WAITING READ')
+    PREPARING = (2, 'PREPARING')
+    WAITING_WRITE = (3, 'WAITING_WRITE')
+    WRITING = (4, 'WRITING')
 
 class ParseType:
     IGNORE = 0
     NEW = 1
     UPDATE = 2
 
-class Parser(Process, Observable):
+class HAParser(Process, Observable):
     
     # Class variables
-    state = ParserState.IDLE    
+    state = State()
     raw_entity = None
     prepared_entity = None
 
@@ -41,28 +41,23 @@ class Parser(Process, Observable):
     
     def run(self):
         # Wait until the kb is readable and prepare the data
-        self.state = ParserState.WAITING_READ
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.WAITING_READ)
         self.kb_readable.wait()
-        self.state = ParserState.PREPARING
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.PREPARING)
         self.prepare()
 
         # Make the kb unreadable and acquire a lock to write
-        self.state = ParserState.WAITING_WRITE
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.WAITING_WRITE)
         self.kb_writelock.acquire()
         self.kb_readable.clear()
 
-        self.state = ParserState.WRITING
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.WRITING)
         self.write()
 
         # Release the lock and set the readable event
         self.kb_writelock.release()
         self.kb_readable.set()
-        self.state = ParserState.FINISHED
-        self.notify('[{}] {}'.format(self.name, self.state))
+        self.update(State.FINISHED)
 
     # Write function that either write an update or new addition to the knowledge base
     def write(self):
@@ -125,11 +120,7 @@ class Parser(Process, Observable):
         elif (str(DOME.observes) in device_all.keys()):
             prop_ref = device_all[str(DOME.observes)]
         
-        # Ensure that we have found a property reference
         if (prop_ref is None): raise ParseException
-        # for k in self.raw_entity.keys():
-        #     print(k)
-        #     print(self.raw_entity[k])
         
         self.prepared_entity = {
             'entity': self.raw_entity['entity_id'],
@@ -168,3 +159,7 @@ class Parser(Process, Observable):
                 }
             }
         }
+    
+    def update(self, state):
+        self.state.update(state)
+        self.notify('[{}] {}'.format(self.name, self.state))

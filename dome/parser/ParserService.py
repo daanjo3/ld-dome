@@ -1,9 +1,23 @@
 from multiprocessing import Manager, Process, Queue, Lock, Event
 from dome.lib.observable import Observable
-from dome.parser.HAParser import Parser
+from dome.lib.state import BaseState
+from dome.parser.HAParser import HAParser
+from dome.parser.WParser import WParser
+
+class Origin:
+    HA_LOADER = 'HALoader'
+    HA_UPDATER = 'HAUpdater'
+    WEB_UPDATER = 'WebUpdater'
+
+class State(BaseState):
+    WAITING_QUEUE = (1, 'WAITING READ VALIDATE')
+    PROCESSING = (2, 'PROCESSING PAYLOAD')
+    SPAWN = (3, 'SPAWNING WORKER')
+    TERMINATE = (4, 'TERMINATING WORKERS')
 
 # Thread manager that spawns a worker for each parse updated entity
 class ParserService(Process, Observable):
+    state = State()
     pool = []
     kb_lock = Lock()
     
@@ -24,8 +38,14 @@ class ParserService(Process, Observable):
             for callback in self.callbacks:
                 parser.register(callback)
 
-    def spawn(self, payload):
-        p = Parser(payload, self.kb_event, self.kb_lock, self.outqueue)
+    def spawnHAP(self, payload):
+        p = HAParser(payload, self.kb_event, self.kb_lock, self.outqueue)
+        self.registerNode(p)
+        self.pool.append(p)
+        p.start()
+    
+    def spawnWP(self, payload):
+        p = WParser(payload, self.kb_event, self.kb_lock, self.outqueue)
         self.registerNode(p)
         self.pool.append(p)
         p.start()
@@ -33,24 +53,35 @@ class ParserService(Process, Observable):
     def run(self):
         try:
             while(True):
+                self.update(State.WAITING_QUEUE)
                 origin, payload = self.inqueue.get(block=True)
-                self.notify('[{}] Payload from {}'.format(self.name, origin))
+                self.update(State.PROCESSING, origin=origin)
 
-                if (origin == ParserService.Origin.HA_LOADER):
+                if (origin == Origin.HA_LOADER):
                     # If the origin is the loader split the data in multiple parts
                     for part in payload:
-                        self.spawn(part)
+                        self.update(State.SPAWN)
+                        self.spawnHAP(part)
                 
-                elif (origin == ParserService.Origin.HA_UPDATER):
+                elif (origin == Origin.HA_UPDATER):
                     # If the origin is the updater spawn a single worker
-                    self.spawn(payload)
+                    self.update(State.SPAWN)
+                    self.spawnHAP(payload)
                 
+                elif (origin == Origin.WEB_UPDATER):
+                    self.update(State.SPAWN)
+                    self.spawnWP(payload)
                 else:
                     pass
         except KeyboardInterrupt:
+            self.update(State.TERMINATE)
             for p in self.pool:
                 p.join()
+        self.update(State.FINISHED)
     
-    class Origin:
-        HA_LOADER = 'HALoader'
-        HA_UPDATER = 'HAUpdater'
+    def update(self, state, origin=None):
+        self.state.update(state)
+        msg = '[{}] {}'.format(self.name, self.state)
+        if (origin):
+            msg += ' FROM {}'.format(origin)
+        self.notify(msg)

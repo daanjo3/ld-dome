@@ -3,10 +3,13 @@ import time
 
 from dome.websocket.HALoader import load
 from dome.websocket.HAUpdater import HAUpdater
+from dome.websocket.WebUpdater import WebUpdater
 from dome.parser.ParserService import *
 from dome.automations.AutomationService import AutomationService
 
-from dome.util.dummy.Dummies import loadDummyAutomations
+from dome.util.dummy.webpropertyDummy import loadWebProperty
+from dome.util.dummy.automationDummy import loadAutomation
+from dome.util.dummy.wpautomationDummy import loadWPAutomation
 
 class DomeMain():
     def __init__(self):
@@ -30,10 +33,18 @@ pm = ParserService(dome.parser_queue, dome.automation_queue, dome.graph_readable
 pm.register(dome.log)
 pm.start()
 
-loadDummyAutomations()
+# Loading dummies for testing
+loadWebProperty()
+loadAutomation()
+loadWPAutomation()
+
 # Start HALoader
-# loop = asyncio.get_event_loop()
-# loop.run_until_complete(load(dome.parser_queue))
+loop = asyncio.get_event_loop()
+loop.run_until_complete(load(dome.parser_queue))
+
+# Start WebUpdater
+web_updater = WebUpdater(dome.parser_queue, dome.graph_readable_event)
+web_updater.start()
 
 # Start Automation Manager
 am = AutomationService(dome.automation_queue, dome.graph_readable_event)

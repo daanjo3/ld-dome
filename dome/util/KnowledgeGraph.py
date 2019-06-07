@@ -171,6 +171,23 @@ class KnowledgeGraph(Observable):
         self.closeGraph()
         self.kb_notify('add', DOME.Condition, subject)
         return subject
+    
+    def add_webproperty(self, label, host, resource_ref, property_ref, poll, graph=None):
+        subject = DOME_DATA['property/web/'+str(uuid.uuid4())]
+
+        self.openGraph()
+
+        self.graph.add( (subject, RDF.type, DOME.WebProperty) )
+        self.graph.add( (subject, RDFS.label, Literal(label)) )
+        self.graph.add( (subject, DOME.hostedby, Literal(host)) )
+        if (graph):
+            self.graph.add( (subject, DOME.graphname, Literal(graph)) )
+        self.graph.add( (subject, DOME.resource, URIRef(resource_ref)) )
+        self.graph.add( (subject, DOME.property, URIRef(property_ref)) )
+        self.graph.add( (subject, DOME.poll, Literal(poll)))
+
+        self.closeGraph()
+        return subject
 
     # -----------------  Modification of triples --------------------------
 

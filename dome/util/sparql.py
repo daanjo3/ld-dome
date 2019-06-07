@@ -16,7 +16,6 @@ class WebUpdater():
     def __init__(self, host, query, graph=None):
         self.sparql = SPARQLWrapper(host, returnFormat=JSON, defaultGraph=graph)
         self.sparql.setQuery(query)
-        self.update()
     
     # Single values only!
     def update(self):
@@ -31,3 +30,5 @@ remote = WebUpdater(
     'http://localhost:8890/sparql',
     makeQuery('http://example.org/princenhageweather', 'http://example.org/ns#precipitation'),
     graph='urn:graph:dummy:princenhage')
+
+print(remote.update())

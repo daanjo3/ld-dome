@@ -6,7 +6,7 @@ from multiprocessing import Process
 
 from dome.config import *
 from dome.lib.observable import Observable
-from dome.parser.ParserService import ParserService
+from dome.parser.ParserService import Origin
 
 # Class used for continuous HA-updates to the the knowledge base
 class HAUpdater(Process, Observable):
@@ -34,7 +34,7 @@ class HAUpdater(Process, Observable):
                 message = json.loads(message_raw)
 
                 if (message['type'] == 'event' and message['id'] == 1):
-                    self.queue.put((ParserService.Origin.HA_UPDATER, message['event']['data']['new_state']))
+                    self.queue.put((Origin.HA_UPDATER, message['event']['data']['new_state']))
                     kb_prop = None
                     # kb_prop = parseEvent(message['event']['data'])
                     if (kb_prop is not None):

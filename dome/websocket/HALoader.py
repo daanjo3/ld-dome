@@ -4,7 +4,7 @@ import json
 from websockets import connect
 
 from dome.config import *
-from dome.parser.ParserService import ParserService
+from dome.parser.ParserService import Origin
 
 # Async function that loads all entity data and queues it in the parser
 async def load(queue):
@@ -20,5 +20,5 @@ async def load(queue):
             message = json.loads(message_raw)
 
             if (message['type'] == 'result' and message['id'] == 1):
-                queue.put((ParserService.Origin.HA_LOADER, message['result']))
+                queue.put((Origin.HA_LOADER, message['result']))
                 return
