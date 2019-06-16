@@ -21,12 +21,13 @@ class ParserService(Process, Observable):
     pool = []
     kb_lock = Lock()
     
-    def __init__(self, inqueue, outqueue, kb_readable):
+    def __init__(self, dome):
         Process.__init__(self)
         Observable.__init__(self)
-        self.inqueue = inqueue
-        self.outqueue = outqueue
-        self.kb_event = kb_readable
+        self.dome = dome
+        self.inqueue = dome.parser_queue
+        # self.outqueue = dome.automation_queue
+        # self.kb_event = dome.graph_readable_event
     
     def register(self, callback):
         super(ParserService, self).register(callback)
@@ -39,13 +40,13 @@ class ParserService(Process, Observable):
                 parser.register(callback)
 
     def spawnHAP(self, payload):
-        p = HAParser(payload, self.kb_event, self.kb_lock, self.outqueue)
+        p = HAParser(self.dome, payload, self.kb_lock)
         self.registerNode(p)
         self.pool.append(p)
         p.start()
     
     def spawnWP(self, payload):
-        p = WParser(payload, self.kb_event, self.kb_lock, self.outqueue)
+        p = WParser(self.dome, payload, self.kb_lock)
         self.registerNode(p)
         self.pool.append(p)
         p.start()

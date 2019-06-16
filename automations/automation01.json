@@ -1,0 +1,22 @@
+{
+    "label": "Test automation 1",
+    "isenabled": "True",
+    "triggeredby": {
+        "label": "Trigger lamp 1",
+        "hascondition": [{
+            "label": "Nachtlamp aan",
+            "observes": "http://kadjanderman.com/resource/property/6527e722-5884-4aa4-9028-bb5f0402f191",
+            "target": "on",
+            "operatortype": "=="
+        }],
+        "hassubtrigger": [],
+        "operatortype": null
+    },
+    "performs": [
+        {
+            "label": "Turn on Kamerlamp",
+            "actuates": "http://kadjanderman.com/resource/property/d6cdd288-cc09-4bb8-bfc8-c83040e8cd72",
+            "callservice": "turn_on"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 import sys, os
-sys.path.append(os.path.abspath(os.path.join('redland', 'bindings', 'python')))
+sys.path.append(os.path.abspath(os.path.join('lib', 'redland', 'bindings', 'python')))
 
 import RDF
 

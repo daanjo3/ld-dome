@@ -4,10 +4,14 @@ from dome.lib.observable import Observable
 from dome.lib.state import BaseState
 from dome.lib.validate import validEntity
 
-from dome.util.KnowledgeGraph import KnowledgeGraph
+from dome.db.graph import Graph
 
 import dome.config as config
-DOME = config.DOME_NAMESPACE
+# DOME = config.DOME_NAMESPACE
+
+from RDF import NS
+DOME = NS('http://kadjanderman.com/ontology/')
+DOME_DATA = NS('http://kadjanderman.com/resource/')
 
 # Custom exception for the parser
 class ParseException(Exception):
@@ -31,13 +35,13 @@ class HAParser(Process, Observable):
     raw_entity = None
     prepared_entity = None
 
-    def __init__(self, payload, kb_readable, kb_writelock, outqueue):
+    def __init__(self, dome, payload, kb_writelock):
         Process.__init__(self)
         Observable.__init__(self)
         self.raw_entity = payload
-        self.kb_readable = kb_readable
+        self.kb_readable = dome.graph_readable_event
         self.kb_writelock = kb_writelock
-        self.outqueue = outqueue
+        self.outqueue = dome.automation_queue
     
     def run(self):
         # Wait until the kb is readable and prepare the data
@@ -52,40 +56,39 @@ class HAParser(Process, Observable):
         self.kb_readable.clear()
 
         self.update(State.WRITING)
-        self.write()
+        if (self.prepared_entity['parse'] == ParseType.UPDATE): self.writeUpdate()
+        if (self.prepared_entity['parse'] == ParseType.NEW): self.writeCreate()
 
         # Release the lock and set the readable event
         self.kb_writelock.release()
         self.kb_readable.set()
         self.update(State.FINISHED)
 
-    # Write function that either write an update or new addition to the knowledge base
-    def write(self):
-        if(self.prepared_entity['parse'] == ParseType.UPDATE):
-            data = self.prepared_entity['data']
-            KnowledgeGraph.modify_literal(data['id'], DOME.last_changed, data['last_changed'])
-            KnowledgeGraph.modify_literal(data['id'], DOME.last_updated, data['last_updated'])
-            KnowledgeGraph.modify_literal(data['id'], DOME.value, data['state'])
-            self.outqueue.put(data['id'])
-        elif(self.prepared_entity['parse'] == ParseType.NEW):
-            dev = self.prepared_entity['data']['device']
-            prop = self.prepared_entity['data']['property']
-            prop_ref = KnowledgeGraph.add_property(
-                prop['label'],
-                prop['state'], 
-                prop['last_updated'],
-                prop['last_changed']
-            )
-            KnowledgeGraph.add_device(
-                dev['label'],
-                dev['actuator'],
-                prop_ref, 
-                dev['ha_name'],
-                dev['ha_type']
-            )
-            self.outqueue.put(prop_ref)
-        else:
-            pass
+    def writeUpdate(self):
+        data = self.prepared_entity['data']
+        prop_ref = data['id']
+        Graph.updateStatement(prop_ref, DOME.last_changed, data['last_changed'])
+        Graph.updateStatement(prop_ref, DOME.last_updated, data['last_updated'])
+        Graph.updateStatement(prop_ref, DOME.value, data['state'])
+        self.outqueue.put(str(prop_ref))
+   
+    def writeCreate(self):
+        dev = self.prepared_entity['data']['device']
+        prop = self.prepared_entity['data']['property']
+        prop_ref = Graph.addProperty(
+            prop['label'],
+            prop['state'], 
+            prop['last_updated'],
+            prop['last_changed']
+        )
+        Graph.addDevice(
+            dev['label'],
+            dev['actuator'],
+            prop_ref, 
+            dev['ha_name'],
+            dev['ha_type']
+        )
+        self.outqueue.put(str(prop_ref))
     
     # Main method used to prepare the data of the parser
     def prepare(self):
@@ -94,9 +97,9 @@ class HAParser(Process, Observable):
         self.ha_type = self.ha_name.split('.')[0]
 
         if (validEntity(self.ha_name)):
-            self.device_ref = KnowledgeGraph.get_entity(pred=DOME.homeassistantname, obj=self.ha_name, isURI=False)
+            self.device_ref = Graph.getModel().get_source(DOME.ha_name, self.ha_name)
 
-            if (self.device_ref is not None and len(self.device_ref) > 0):
+            if (self.device_ref is not None):
                 # Parse the data as update
                 self.prepareUpdate()   
             else:
@@ -109,17 +112,9 @@ class HAParser(Process, Observable):
                 'data': None
             }
 
-    # Prepare the data for an update to the knowledge base
-    def prepareUpdate(self):
-        device_all = KnowledgeGraph.get_entity_by_id(str(self.device_ref[0]))
-                
+    def prepareUpdate(self):                
         # Get the device property
-        prop_ref = None
-        if (str(DOME.actuates) in device_all.keys()):
-            prop_ref = device_all[str(DOME.actuates)]
-        elif (str(DOME.observes) in device_all.keys()):
-            prop_ref = device_all[str(DOME.observes)]
-        
+        prop_ref = Graph.getModel().get_target(self.device_ref, DOME.actuates) or Graph.getModel().get_target(self.device_ref, DOME.observes)        
         if (prop_ref is None): raise ParseException
         
         self.prepared_entity = {
@@ -133,7 +128,7 @@ class HAParser(Process, Observable):
             }
         }
     
-    # Prepare the data for a new addition to the knowledge base
+    # Prepare the data for a new addition to the graph
     def prepareNew(self):
         label = None
         try:

@@ -20,10 +20,11 @@ class State(BaseState):
 class Resolver(Process, Observable):
     state = State()
 
-    def __init__(self, kb_readable, automation_id):
+    def __init__(self, dome, automation_id):
         Process.__init__(self)
         Observable.__init__(self)
-        self.kb_readable = kb_readable
+        self.dome = dome
+        self.kb_readable = dome.graph_readable_event
         self.automation_id = automation_id
     
     def run(self):

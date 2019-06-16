@@ -29,13 +29,13 @@ class WParser(Process, Observable):
     raw_entity = None
     prepared_entity = None
 
-    def __init__(self, payload, kb_readable, kb_writelock, outqueue):
+    def __init__(self, dome, payload, kb_writelock):
         Process.__init__(self)
         Observable.__init__(self)
         self.raw_entity = payload
-        self.kb_readable = kb_readable
+        self.kb_readable = dome.graph_readable_event
         self.kb_writelock = kb_writelock
-        self.outqueue = outqueue
+        self.outqueue = dome.automation_queue
     
     def run(self):
         # Make the kb unreadable and acquire a lock to write

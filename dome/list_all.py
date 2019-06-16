@@ -1,4 +1,4 @@
-from dome.util.KnowledgeGraph import KnowledgeGraph
+from dome.db.graph import Graph
 
-path = './dome/data/entity_list.ttl'
-KnowledgeGraph.writeToFile(path)
+for statement in Graph.getModel():
+    print(statement)

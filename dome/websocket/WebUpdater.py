@@ -23,8 +23,6 @@ class SPARQLService():
     
     # Single values only!
     def update(self):
-        # query_result = self.sparql.query().convert()
-        # print(query_result)
         result = (self.sparql.query().convert())['results']['bindings'][0]
         value = result['value']
         if (value['type'] == 'typed-literal'):
@@ -44,11 +42,11 @@ class WebUpdater(Process, Observable):
     state = State()
     services = []
 
-    def __init__(self, queue, kb_readable):
+    def __init__(self, dome):
         Process.__init__(self)
         Observable.__init__(self)
-        self.queue = queue
-        self.kb_readable = kb_readable
+        self.queue = dome.parser_queue
+        self.kb_readable = dome.graph_readable_event
     
     def awakeService(self):
         awaken = []

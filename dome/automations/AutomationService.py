@@ -3,10 +3,17 @@ from multiprocessing import Process
 from dome.lib.observable import Observable
 from dome.lib.state import BaseState
 
-from dome.util.KnowledgeGraph import KnowledgeGraph
+# from dome.util.KnowledgeGraph import KnowledgeGraph
+from dome.db.graph import Graph
 from dome.automations.AutomationResolver import Resolver
 
-from dome.config import DOME_NAMESPACE as DOME
+# from dome.config import DOME_NAMESPACE as DOME
+from RDF import NS
+DOME = NS('http://kadjanderman.com/ontology/')
+DOME_DATA = NS('http://kadjanderman.com/resource/')
+# These current do not generate valid URIs
+rdf = NS('https://www.w3.org/TR/rdf-schema/')
+rdfs = rdf
 
 class State(BaseState):
     WAITING_READ_LOAD = (1, 'WAITING READ LOAD')
@@ -22,11 +29,12 @@ class AutomationService(Process, Observable):
     kb_readable = None
     watchlist = []
 
-    def __init__(self, queue, kb_readable):
+    def __init__(self, dome):
         Process.__init__(self)
         Observable.__init__(self)
-        self.queue = queue
-        self.kb_readable = kb_readable
+        self.queue = dome.automation_queue
+        self.kb_readable = dome.graph_readable_event
+        self.dome = dome
     
     def register(self, callback):
         super(AutomationService, self).register(callback)
@@ -52,7 +60,7 @@ class AutomationService(Process, Observable):
                 if (automation_relevant):
                     for automation in automation_relevant:
                         self.update(State.SPAWN)
-                        r = Resolver(self.kb_readable, automation)
+                        r = Resolver(self.dome, automation)
                         self.registerNode(r)
                         self.pool.append(r)
                         r.start()
@@ -63,12 +71,15 @@ class AutomationService(Process, Observable):
                 r.join()
         self.update(State.FINISHED)
 
+    # TODO Update for REDLAND
     # TODO Update to enable nested triggers
     def loadAutomations(self):
         automations = KnowledgeGraph.get_entities_by_type(DOME.Automation, mode=2)
+        automations = Graph.getModel().get_sources(rdf.type, DOME.Automation)
 
         for automation in automations:
-            trigger = KnowledgeGraph.get_entity_by_id(automation[str(DOME.triggeredby)])
+            trigger = Graph.get_target(automation, DOME.triggeredby)
+            # trigger = KnowledgeGraph.get_entity_by_id(automation[str(DOME.triggeredby)])
             trigger_conditions = KnowledgeGraph.cleanPropertyList(trigger, str(DOME.hascondition))
 
             for condition_id in trigger_conditions:

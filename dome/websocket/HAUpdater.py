@@ -35,14 +35,3 @@ class HAUpdater(Process, Observable):
 
                 if (message['type'] == 'event' and message['id'] == 1):
                     self.queue.put((Origin.HA_UPDATER, message['event']['data']['new_state']))
-                    kb_prop = None
-                    # kb_prop = parseEvent(message['event']['data'])
-                    if (kb_prop is not None):
-                        pass
-                        # self.queue.put(message['event']['data'])
-                        # self.notify({
-                        #     'domain': 'websocket',
-                        #     'op': 'update',
-                        #     'prop': kb_prop,
-                        #     'data': message['event']['data']
-                        # })
