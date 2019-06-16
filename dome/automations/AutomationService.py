@@ -6,6 +6,7 @@ from dome.lib.state import BaseState
 # from dome.util.KnowledgeGraph import KnowledgeGraph
 from dome.db.graph import Graph
 from dome.automations.AutomationResolver import Resolver
+from dome.automations.AutomationUtil import getWatchlist
 
 # from dome.config import DOME_NAMESPACE as DOME
 from RDF import NS
@@ -50,7 +51,7 @@ class AutomationService(Process, Observable):
         self.update(State.WAITING_READ_LOAD)
         self.kb_readable.wait()
         self.update(State.LOAD)
-        self.loadAutomations()
+        self.watchlist = getWatchlist()
         try:
             while(True):
                 self.update(State.WAITING_QUEUE)
@@ -70,32 +71,11 @@ class AutomationService(Process, Observable):
             for r in self.pool:
                 r.join()
         self.update(State.FINISHED)
-
-    # TODO Update for REDLAND
-    # TODO Update to enable nested triggers
-    def loadAutomations(self):
-        automations = KnowledgeGraph.get_entities_by_type(DOME.Automation, mode=2)
-        automations = Graph.getModel().get_sources(rdf.type, DOME.Automation)
-
-        for automation in automations:
-            trigger = Graph.get_target(automation, DOME.triggeredby)
-            # trigger = KnowledgeGraph.get_entity_by_id(automation[str(DOME.triggeredby)])
-            trigger_conditions = KnowledgeGraph.cleanPropertyList(trigger, str(DOME.hascondition))
-
-            for condition_id in trigger_conditions:
-                condition = KnowledgeGraph.get_entity_by_id(condition_id)
-                prop = KnowledgeGraph.get_entity_by_id(condition[str(DOME.observes)])
-
-                self.watchlist.append({
-                    'prop_ref': str(prop['id']),
-                    'enabled': bool(automation[str(DOME.enabled)]),
-                    'automation_id': str(automation['id'])
-                })
     
     def wakeAutomationList(self, prop_ref):
         automation_list = []
         for watch in self.watchlist:
-            if (watch['prop_ref'] == prop_ref and watch['enabled']):
+            if (str(watch['prop_ref']) == prop_ref and watch['enabled']):
                 automation_list.append(watch['automation_id'])
         return list(set(automation_list))
     

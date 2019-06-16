@@ -11,8 +11,8 @@ import dome.config as config
 DOME = NS('http://kadjanderman.com/ontology/')
 DOME_DATA = NS('http://kadjanderman.com/resource/')
 # These current do not generate valid URIs
-rdf = NS('https://www.w3.org/TR/rdf-schema/')
-rdfs = rdf
+rdfs = NS('http://www.w3.org/2000/01/rdf-schema#')
+rdf = NS('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
 
 def cleanUri(ha_name):
     ha_name = ha_name.replace('.', '-')

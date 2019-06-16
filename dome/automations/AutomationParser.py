@@ -80,6 +80,6 @@ if __name__ == "__main__":
     with open('./automations/automation01.json', 'r') as f:
         automation_raw = json.load(f)
         ap.start(automation_raw)
-    with open('./automations/automation02.json', 'r') as f:
-        automation_raw = json.load(f)
-        ap.start(automation_raw)
+    # with open('./automations/automation02.json', 'r') as f:
+    #     automation_raw = json.load(f)
+    #     ap.start(automation_raw)

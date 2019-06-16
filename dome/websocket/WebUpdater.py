@@ -8,7 +8,7 @@ from dome.parser.ParserService import Origin
 
 from dome.config import DOME_NAMESPACE as DOME
 
-from dome.util.KnowledgeGraph import KnowledgeGraph
+# from dome.util.KnowledgeGraph import KnowledgeGraph
 
 class State(BaseState):
     pass

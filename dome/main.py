@@ -9,13 +9,13 @@ from dome.db.graph import Graph
 
 from dome.websocket.HALoader import load
 from dome.websocket.HAUpdater import HAUpdater
-from dome.websocket.WebUpdater import WebUpdater
+# from dome.websocket.WebUpdater import WebUpdater
 from dome.parser.ParserService import *
 from dome.automations.AutomationService import AutomationService
 
-from dome.util.dummy.webpropertyDummy import loadWebProperty
-from dome.util.dummy.automationDummy import loadAutomation
-from dome.util.dummy.wpautomationDummy import loadWPAutomation
+# from dome.dummy.webpropertyDummy import loadWebProperty
+# from dome.dummy.automationDummy import loadAutomation
+# from dome.dummy.wpautomationDummy import loadWPAutomation
 
 class DomeMain():
     def __init__(self):
@@ -54,13 +54,13 @@ loop = asyncio.get_event_loop()
 loop.run_until_complete(load(dome.parser_queue))
 
 # Start WebUpdater
-web_updater = WebUpdater(dome)
-web_updater.start()
+# web_updater = WebUpdater(dome)
+# web_updater.start()
 
 # Start Automation Manager
-# am = AutomationService(dome)
-# am.register(dome.log)
-# am.start()
+am = AutomationService(dome)
+am.register(dome.log)
+am.start()
 
 # Start HAUpdater
 ha_updater = HAUpdater(dome.parser_queue)
