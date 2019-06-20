@@ -22,3 +22,11 @@ async def load(queue):
             if (message['type'] == 'result' and message['id'] == 1):
                 queue.put((Origin.HA_LOADER, message['result']))
                 return
+
+if __name__ == "__main__":
+    from multiprocessing import Manager
+    manager = Manager()
+    queue = manager.Queue()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(load(queue))
+    print(queue.get(block=True))

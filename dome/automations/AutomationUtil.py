@@ -1,9 +1,9 @@
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('lib', 'redland', 'bindings', 'python')))
-
+# Redland import
 from RDF import Query, Uri
-from dome.db.graph import Graph, DOME, DOME_DATA, rdf, rdfs
 
+# DomeLD import
+from dome.db.graph import Graph
+from dome.config import DOME, DOME_DATA, rdf, rdfs
 
 def getWatchlistCondition(condition):
     return Graph.getModel().get_target(condition, DOME.observes)
@@ -115,7 +115,3 @@ def retrievePropInfo(prop):
         ha_name = str(result['ha_name'])
         ha_type = str(result['ha_type'])
         return (ha_name, ha_type)
-
-if __name__ == "__main__":
-    services = gatherServiceInfo(Uri('http://kadjanderman.com/resource/automation/72162bee-6cc5-40a3-a5e1-0b0cfe00da04'))
-    print(services)

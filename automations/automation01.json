@@ -5,7 +5,7 @@
         "label": "Trigger lamp 1",
         "hascondition": [{
             "label": "Nachtlamp aan",
-            "observes": "http://kadjanderman.com/resource/property/switch.sonoff4e50e4d2-0485-4b86-9a99-91e6d8206dd3",
+            "observes": "http://kadjanderman.com/resource/property/switch.sonoff_262f01df1-a43f-4068-b884-70b4ecdd7cc1",
             "target": "on",
             "operatortype": "=="
         }],
@@ -15,7 +15,7 @@
     "performs": [
         {
             "label": "Turn on Kamerlamp",
-            "actuates": "http://kadjanderman.com/resource/property/switch.sonoff_25fae01f1-7155-42dd-9440-239a1b9a07f6",
+            "actuates": "http://kadjanderman.com/resource/property/switch.sonoff_262f01df1-a43f-4068-b884-70b4ecdd7cc1",
             "callservice": "turn_on"
         }
     ]

@@ -26,8 +26,6 @@ class ParserService(Process, Observable):
         Observable.__init__(self)
         self.dome = dome
         self.inqueue = dome.parser_queue
-        # self.outqueue = dome.automation_queue
-        # self.kb_event = dome.graph_readable_event
     
     def register(self, callback):
         super(ParserService, self).register(callback)

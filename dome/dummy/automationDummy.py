@@ -1,5 +1,5 @@
 from dome.util.KnowledgeGraph import KnowledgeGraph
-from dome.config import DOME_NAMESPACE as DOME
+from dome.config import DOME
 
 def test_create_condition():
     label = 'is het bedlampje aan?'

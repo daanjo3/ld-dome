@@ -1,17 +1,12 @@
+# built-in import
 from multiprocessing import Process
 
+# DomeLD import
 from dome.lib.observable import Observable
 from dome.lib.state import BaseState
 from dome.lib.validate import validEntity
-
 from dome.db.graph import Graph
-
-import dome.config as config
-# DOME = config.DOME_NAMESPACE
-
-from RDF import NS
-DOME = NS('http://kadjanderman.com/ontology/')
-DOME_DATA = NS('http://kadjanderman.com/resource/')
+from dome.config import DOME, DOME_DATA, ACTUATORS
 
 # Custom exception for the parser
 class ParseException(Exception):
@@ -142,7 +137,7 @@ class HAParser(Process, Observable):
             'data': {
                 'device': {
                     'label': label,
-                    'actuator': self.ha_type in config.ACTUATORS,
+                    'actuator': self.ha_type in ACTUATORS,
                     'ha_name': self.ha_name,
                     'ha_type': self.ha_type
                 },

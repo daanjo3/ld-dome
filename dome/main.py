@@ -9,7 +9,7 @@ from dome.db.graph import Graph
 
 from dome.websocket.HALoader import load
 from dome.websocket.HAUpdater import HAUpdater
-# from dome.websocket.WebUpdater import WebUpdater
+from dome.websocket.WebUpdater import WebUpdater
 from dome.parser.ParserService import *
 from dome.automations.AutomationService import AutomationService
 
@@ -54,8 +54,8 @@ loop = asyncio.get_event_loop()
 loop.run_until_complete(load(dome.parser_queue))
 
 # Start WebUpdater
-# web_updater = WebUpdater(dome)
-# web_updater.start()
+web_updater = WebUpdater(dome)
+web_updater.start()
 
 # Start Automation Manager
 am = AutomationService(dome)

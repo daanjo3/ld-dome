@@ -1,5 +1,5 @@
 from dome.util.KnowledgeGraph import KnowledgeGraph
-from dome.config import DOME_NAMESPACE as DOME
+from dome.config import DOME
 
 def loadWebProperty():
     webproperties = KnowledgeGraph.get_entities_by_type(DOME.WebProperty)

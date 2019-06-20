@@ -1,17 +1,15 @@
+# built-in import
 from multiprocessing import Process
 import asyncio
 import time
 
-# from dome.util.KnowledgeGraph import KnowledgeGraph
+# DomeLD imports
 from dome.lib.observable import Observable
 from dome.lib.state import BaseState
 from dome.websocket.HAService import call
-
-from dome.db.graph import Graph, DOME
+from dome.db.graph import Graph
 from dome.automations.AutomationUtil import verifyTrigger, gatherServiceInfo
-
-# from dome.config import DOME_NAMESPACE as DOME
-from rdflib.namespace import RDFS
+from dome.config import DOME
 
 class State(BaseState):
     WAITING_READ_VALIDATE = (1, 'WAITING READ VALIDATE')

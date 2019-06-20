@@ -1,14 +1,15 @@
-from multiprocessing import Process
-from SPARQLWrapper import SPARQLWrapper, JSON
+# built-in import
 import time
+from multiprocessing import Process
 
+# SPARQLWrapper import
+from SPARQLWrapper import SPARQLWrapper, JSON
+
+# DomeLD import
 from dome.lib.state import BaseState
 from dome.lib.observable import Observable
 from dome.parser.ParserService import Origin
-
-from dome.config import DOME_NAMESPACE as DOME
-
-# from dome.util.KnowledgeGraph import KnowledgeGraph
+from dome.config import DOME
 
 class State(BaseState):
     pass
@@ -28,15 +29,6 @@ class SPARQLService():
         if (value['type'] == 'typed-literal'):
             if (value['datatype'] == 'http://www.w3.org/2001/XMLSchema#integer'):
                 return int(value['value'])
-        # try:
-        #     result = (self.sparql.query().convert())['results']['bindings'][0]
-        #     self.value = result['value']
-        #     if (result['type'] == 'typed-literal'):
-        #         if (result['datatype'] == 'http://www.w3.org/2001/XMLSchema#integer'):
-        #             return int(result['value'])
-        # except Exception:
-        #     print('[SPARQLService] ERROR')
-        #     return None
 
 class WebUpdater(Process, Observable):
     state = State()

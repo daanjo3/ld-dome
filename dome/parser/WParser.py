@@ -2,12 +2,8 @@ from multiprocessing import Process
 
 from dome.lib.observable import Observable
 from dome.lib.state import BaseState
-from dome.lib.validate import validEntity
 
-# from dome.util.KnowledgeGraph import KnowledgeGraph
-
-import dome.config as config
-DOME = config.DOME_NAMESPACE
+from dome.config import DOME
 
 # Custom exception for the parser
 class ParseException(Exception):

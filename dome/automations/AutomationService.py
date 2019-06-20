@@ -1,20 +1,13 @@
+# built-in import
 from multiprocessing import Process
 
+# DomeLD import
 from dome.lib.observable import Observable
 from dome.lib.state import BaseState
-
-# from dome.util.KnowledgeGraph import KnowledgeGraph
 from dome.db.graph import Graph
 from dome.automations.AutomationResolver import Resolver
 from dome.automations.AutomationUtil import getWatchlist
-
-# from dome.config import DOME_NAMESPACE as DOME
-from RDF import NS
-DOME = NS('http://kadjanderman.com/ontology/')
-DOME_DATA = NS('http://kadjanderman.com/resource/')
-# These current do not generate valid URIs
-rdf = NS('https://www.w3.org/TR/rdf-schema/')
-rdfs = rdf
+from dome.config import DOME, DOME_DATA, rdf, rdfs
 
 class State(BaseState):
     WAITING_READ_LOAD = (1, 'WAITING READ LOAD')

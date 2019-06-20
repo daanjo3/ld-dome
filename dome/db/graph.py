@@ -1,18 +1,11 @@
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('lib', 'redland', 'bindings', 'python')))
+# built-in import
+import uuid, os
 
-from RDF import Storage, Model, Uri, NS, Statement, Node
+# Redland import
+from RDF import Storage, Model, Uri, Statement, Node
 
-import uuid
-
-import dome.config as config
-
-# Move to config
-DOME = NS('http://kadjanderman.com/ontology/')
-DOME_DATA = NS('http://kadjanderman.com/resource/')
-# These current do not generate valid URIs
-rdfs = NS('http://www.w3.org/2000/01/rdf-schema#')
-rdf = NS('http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+# DomeLD import
+from dome.config import DOME, DOME_DATA, rdfs, rdf
 
 def cleanUri(ha_name):
     ha_name = ha_name.replace('.', '-')
@@ -151,34 +144,3 @@ class Graph:
     
     def __del__(self):
         del self.model
-
-if __name__ == "__main__":
-
-    # graph = Graph()
-    
-    # device_ref = graph.getModel().get_source(DOME.ha_name, 'switch.sonoff')
-    # print(device_ref, type(device_ref))
-    # for statement in graph.getModel().find_statements(Statement(device_ref, None, None)):
-    #     print(statement)
-    
-
-    # graph.updateStatement(
-    #     Uri('http://kadjanderman.com/resource/property/dda84922-1282-4bc6-b5b1-363b965e8b9a'),
-    #     DOME.value,
-    #     '50')
-    # Graph.addProperty('testproperty', '24', 'yesterday', 'yesterday')
-    for statement in Graph.getModel():
-        print(statement)
-
-    src = Graph.getModel().get_source(Uri('http://kadjanderman.com/ontology/ha_name'), "switch.sonoff")
-    print(['-----']*20)
-    src_string = str(src)
-    print(src_string, type(src_string))
-    uri = Uri(src_string)
-    print(uri, type(uri))
-    stmts = Graph.getModel().find_statements(Statement(uri, None, None))
-    for stmt in stmts:
-        print(stmt)
-    
-    del Graph
-

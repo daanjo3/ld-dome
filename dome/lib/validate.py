@@ -1,4 +1,4 @@
-from config import *
+from dome.config import *
 
 # Check whether an entity is valid for this context
 def validEntity(ha_name):

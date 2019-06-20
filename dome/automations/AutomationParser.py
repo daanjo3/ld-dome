@@ -1,16 +1,19 @@
+if __name__ == "__main__":
+    import sys, os
+    sys.path.append(os.path.abspath(os.path.join('lib', 'redland', 'bindings', 'python')))
+
+# Built-in import
 import uuid
 import json
 
+# RDFlib import
 from rdflib import Graph, plugin
 from rdflib.serializer import Serializer
+# Redland import
+from RDF import TurtleParser, Uri
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join('lib', 'redland', 'bindings', 'python')))
-
-from RDF import NS, TurtleParser, Uri
-DOME = NS('http://kadjanderman.com/ontology/')
-DOME_DATA = NS('http://kadjanderman.com/resource/')
-
+# DomeLD import
+from dome.config import DOME, DOME_DATA
 from dome.db.graph import Graph as DGraph
 
 CONTEXT = {
@@ -75,7 +78,9 @@ class AutomationParser():
     
 
 if __name__ == "__main__":
-    automation = None
+    import sys, os
+    sys.path.append(os.path.abspath(os.path.join('lib', 'redland', 'bindings', 'python')))
+
     ap = AutomationParser()
     with open('./automations/automation01.json', 'r') as f:
         automation_raw = json.load(f)
