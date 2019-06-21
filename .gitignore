@@ -4,3 +4,5 @@ redland/
 matplotlib/
 
 *.sqlite3
+
+venv/
