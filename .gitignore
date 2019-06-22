@@ -6,3 +6,13 @@ matplotlib/
 *.sqlite3
 
 venv/
+
+build/
+
+dist/
+
+venv_backup/
+
+benchmark01\.csv
+
+mprofile_20190622215624\.dat
