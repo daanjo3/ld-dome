@@ -6,3 +6,15 @@ matplotlib/
 *.sqlite3
 
 venv/
+
+venv_backup/
+
+benchmark01\.csv
+
+*.dat
+
+dome\.egg-info/
+
+dist/
+
+build/
