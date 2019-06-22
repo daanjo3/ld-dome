@@ -1,8 +1,11 @@
 from multiprocessing import Process
+from time import time
 
 from dome.lib.observable import Observable
 from dome.lib.state import BaseState
 
+from dome.db.graph import Graph
+from RDF import Uri, RedlandError
 from dome.config import DOME
 
 # Custom exception for the parser
@@ -12,6 +15,7 @@ class ParseException(Exception):
 class State(BaseState):
     WAITING_WRITE = (3, 'WAITING_WRITE')
     WRITING = (4, 'WRITING')
+    FAILED = (5, 'PARSER FAILED')
 
 class ParseType:
     IGNORE = 0
@@ -32,30 +36,38 @@ class WParser(Process, Observable):
         self.kb_readable = dome.graph_readable_event
         self.kb_writelock = kb_writelock
         self.outqueue = dome.automation_queue
+        self.bm_queue = dome.bm_queue
     
     def run(self):
+        self.bm_queue.put((self.name, 'start', time()))
         # Make the kb unreadable and acquire a lock to write
-        self.update(State.WAITING_WRITE)
-        self.kb_writelock.acquire()
-        self.kb_readable.clear()
+        try:
+            self.update(State.WAITING_WRITE)
+            self.kb_writelock.acquire()
+            self.kb_readable.clear()
 
-        self.update(State.WRITING)
-        self.write()
-
+            self.update(State.WRITING)
+            self.write()
+        except RedlandError:
+            self.update(State.FAILED)
+        
         # Release the lock and set the readable event
+        self.update(State.FINISHED)
         self.kb_writelock.release()
         self.kb_readable.set()
-        self.update(State.FINISHED)
+
+        self.bm_queue.put((self.name, 'stop', time()))
 
     # Write function that either write an update or new addition to the knowledge base
     def write(self):
-        prop_id = self.raw_entity['id']
+        prop_id = Uri(self.raw_entity['id'])
         last_updated = self.raw_entity['last_updated']
         state = self.raw_entity['state']
+        print('[WPARSER] Updated {} to state {}'.format(str(prop_id), state))
 
-        KnowledgeGraph.modify_literal(prop_id, DOME.last_updated, last_updated)
-        KnowledgeGraph.modify_literal(prop_id, DOME.value, state)
-        self.outqueue.put(prop_id)
+        Graph.updateStatement(prop_id, DOME.last_updated, last_updated)
+        Graph.updateStatement(prop_id, DOME.value, str(state))
+        self.outqueue.put(str(prop_id))
 
         
     def update(self, state):

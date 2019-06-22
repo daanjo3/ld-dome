@@ -1,5 +1,6 @@
 # built-in import
 from multiprocessing import Process
+from time import time, sleep
 
 # DomeLD import
 from dome.lib.observable import Observable
@@ -7,6 +8,7 @@ from dome.lib.state import BaseState
 from dome.lib.validate import validEntity
 from dome.db.graph import Graph
 from dome.config import DOME, DOME_DATA, ACTUATORS
+from RDF import RedlandError
 
 # Custom exception for the parser
 class ParseException(Exception):
@@ -15,8 +17,10 @@ class ParseException(Exception):
 class State(BaseState):
     WAITING_READ = (1, 'WAITING READ')
     PREPARING = (2, 'PREPARING')
+    PREPARING_FAILED = (20, 'PREPARING_FAILED_RETRY')
     WAITING_WRITE = (3, 'WAITING_WRITE')
     WRITING = (4, 'WRITING')
+    FAILED = (5, 'PARSER FAILED')
 
 class ParseType:
     IGNORE = 0
@@ -30,34 +34,47 @@ class HAParser(Process, Observable):
     raw_entity = None
     prepared_entity = None
 
-    def __init__(self, dome, payload, kb_writelock):
+    def __init__(self, dome, payload, kb_writelock, outqueue=None):
         Process.__init__(self)
         Observable.__init__(self)
         self.raw_entity = payload
         self.kb_readable = dome.graph_readable_event
         self.kb_writelock = kb_writelock
-        self.outqueue = dome.automation_queue
+        self.outqueue = outqueue
+        self.bm_queue = dome.bm_queue
     
     def run(self):
+        self.bm_queue.put((self.name, 'start', time()))
         # Wait until the kb is readable and prepare the data
-        self.update(State.WAITING_READ)
-        self.kb_readable.wait()
-        self.update(State.PREPARING)
-        self.prepare()
+        prepared = False
+        while(not prepared):
+            try:
+                self.update(State.WAITING_READ)
+                self.kb_readable.wait()
+                self.update(State.PREPARING)
+                prepared = self.prepare()
+            except RedlandError:
+                self.update(State.PREPARING_FAILED)
+                sleep(0.3)
 
         # Make the kb unreadable and acquire a lock to write
-        self.update(State.WAITING_WRITE)
-        self.kb_writelock.acquire()
-        self.kb_readable.clear()
+        try:
+            self.update(State.WAITING_WRITE)
+            self.kb_writelock.acquire()
+            self.kb_readable.clear()
 
-        self.update(State.WRITING)
-        if (self.prepared_entity['parse'] == ParseType.UPDATE): self.writeUpdate()
-        if (self.prepared_entity['parse'] == ParseType.NEW): self.writeCreate()
+            self.update(State.WRITING)
+            if (self.prepared_entity['parse'] == ParseType.UPDATE): self.writeUpdate()
+            if (self.prepared_entity['parse'] == ParseType.NEW): self.writeCreate()
+        except RedlandError:
+            self.update(State.FAILED)
 
         # Release the lock and set the readable event
         self.kb_writelock.release()
         self.kb_readable.set()
         self.update(State.FINISHED)
+
+        self.bm_queue.put((self.name, 'stop', time()))
 
     def writeUpdate(self):
         data = self.prepared_entity['data']
@@ -65,7 +82,8 @@ class HAParser(Process, Observable):
         Graph.updateStatement(prop_ref, DOME.last_changed, data['last_changed'])
         Graph.updateStatement(prop_ref, DOME.last_updated, data['last_updated'])
         Graph.updateStatement(prop_ref, DOME.value, data['state'])
-        self.outqueue.put(str(prop_ref))
+        if (self.outqueue):
+            self.outqueue.put(str(prop_ref))
    
     def writeCreate(self):
         dev = self.prepared_entity['data']['device']
@@ -83,7 +101,8 @@ class HAParser(Process, Observable):
             dev['ha_name'],
             dev['ha_type']
         )
-        self.outqueue.put(str(prop_ref))
+        if (self.outqueue):
+            self.outqueue.put(str(prop_ref))
     
     # Main method used to prepare the data of the parser
     def prepare(self):
@@ -106,6 +125,7 @@ class HAParser(Process, Observable):
                 'parse': ParseType.IGNORE,
                 'data': None
             }
+        return True
 
     def prepareUpdate(self):                
         # Get the device property

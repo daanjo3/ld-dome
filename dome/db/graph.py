@@ -129,6 +129,21 @@ class Graph:
         ]
         self._add(statements)
         return subject
+    
+    def addWebProperty(self, label, host, ext_res_src, ext_prop_src, poll, graph=None):
+        subject = DOME_DATA['webproperty/'+str(uuid.uuid4())]
+        statements = [
+            Statement(subject, rdf.type, DOME.WebProperty),
+            Statement(subject, rdfs.label, label),
+            Statement(subject, DOME.hostedby, host),
+            Statement(subject, DOME.resource, ext_res_src),
+            Statement(subject, DOME.property, ext_prop_src),
+            Statement(subject, DOME.poll, str(poll))
+        ]
+        if (graph):
+            statements.append(Statement(subject, DOME.graphname, graph))
+        self._add(statements)
+        return subject
 
     # Removes all existing statements first!!!
     def updateStatement(self, src, pred, obj):

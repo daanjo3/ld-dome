@@ -6,17 +6,19 @@ from multiprocessing import Process
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 # DomeLD import
+from dome.db.graph import Graph
 from dome.lib.state import BaseState
 from dome.lib.observable import Observable
 from dome.parser.ParserService import Origin
-from dome.config import DOME
+from dome.config import DOME, rdf
+
+HOUR = 60 * 60
 
 class State(BaseState):
     pass
 
 class SPARQLService():
     sparql = None
-    timeout = 1000 * 60
 
     def __init__(self, host, query, graph=None):
         self.sparql = SPARQLWrapper(host, returnFormat=JSON, defaultGraph=graph)
@@ -56,7 +58,10 @@ class WebUpdater(Process, Observable):
         times = []
         for service in self.services:
             times.append(self.serviceSleep(service))
-        return min(times)
+        if (len(times) >= 1):
+            return min(times)
+        else:
+            return HOUR
     
     def run(self):
         self.kb_readable.wait()
@@ -79,29 +84,31 @@ class WebUpdater(Process, Observable):
         if (value is None):
             return
         payload = ({
-            'id': service['prop_ref'],
+            'id': str(service['prop_ref']),
             'last_updated': time.strftime('%Y-%m-%dT%H:%M:%S%z', time.localtime()),
             'state': value
         })
         self.queue.put((Origin.WEB_UPDATER, payload))
 
     def loadWebResources(self):
-        webproperties = KnowledgeGraph.get_entities_by_type(DOME.WebProperty, mode=2)
+        webproperties = Graph.getModel().get_sources(rdf.type, DOME.WebProperty)
         for wp in webproperties:
-            graphname = None
-            if (str(DOME.graphname) in wp.keys()):
-                graphname = wp[str(DOME.graphname)]
+            res = Graph.getModel().get_target(wp, DOME.resource)
+            prop = Graph.getModel().get_target(wp, DOME.property)
+            host = Graph.getModel().get_target(wp, DOME.hostedby)
+            graphname = Graph.getModel().get_target(wp, DOME.graphname)
+            graphname = str(graphname) if graphname else None
+
+            query = formulateQuery(str(res), str(prop))
+            sparql = SPARQLService(str(host), query, graph=graphname)
             
-            query = formulateQuery(wp[str(DOME.resource)], wp[str(DOME.property)])
-            sparql = SPARQLService(wp[str(DOME.hostedby)], query, graph=graphname)
-            
+            poll = Graph.getModel().get_target(wp, DOME.poll)
             self.services.append({
-                'prop_ref': wp['id'],
+                'prop_ref': wp,
                 'sparql': sparql,
-                'poll': int(wp[str(DOME.poll)]),
+                'poll': int(str(poll)),
                 'last_updated': 0,
             })
-
 
     def update(self, state):
         self.state.update(state)

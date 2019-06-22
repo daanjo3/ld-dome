@@ -19,6 +19,7 @@ class State(BaseState):
 class ParserService(Process, Observable):
     state = State()
     pool = []
+    load_pool = []
     kb_lock = Lock()
     
     def __init__(self, dome):
@@ -26,6 +27,7 @@ class ParserService(Process, Observable):
         Observable.__init__(self)
         self.dome = dome
         self.inqueue = dome.parser_queue
+        self.loader_finished = dome.loader_finished
     
     def register(self, callback):
         super(ParserService, self).register(callback)
@@ -37,11 +39,12 @@ class ParserService(Process, Observable):
             for callback in self.callbacks:
                 parser.register(callback)
 
-    def spawnHAP(self, payload):
-        p = HAParser(self.dome, payload, self.kb_lock)
+    def spawnHAP(self, payload, outqueue):
+        p = HAParser(self.dome, payload, self.kb_lock, outqueue=outqueue)
         self.registerNode(p)
         self.pool.append(p)
         p.start()
+        return p
     
     def spawnWP(self, payload):
         p = WParser(self.dome, payload, self.kb_lock)
@@ -60,12 +63,16 @@ class ParserService(Process, Observable):
                     # If the origin is the loader split the data in multiple parts
                     for part in payload:
                         self.update(State.SPAWN)
-                        self.spawnHAP(part)
+                        p = self.spawnHAP(part, None)
+                        self.load_pool.append(p)
+                    for p in self.load_pool:
+                        p.join()
+                    self.loader_finished.set()                    
                 
                 elif (origin == Origin.HA_UPDATER):
                     # If the origin is the updater spawn a single worker
                     self.update(State.SPAWN)
-                    self.spawnHAP(payload)
+                    self.spawnHAP(payload, self.dome.automation_queue)
                 
                 elif (origin == Origin.WEB_UPDATER):
                     self.update(State.SPAWN)
