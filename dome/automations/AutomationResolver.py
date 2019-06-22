@@ -1,7 +1,7 @@
 # built-in import
 from multiprocessing import Process
 import asyncio
-import time
+from time import time
 
 # DomeLD imports
 from dome.lib.observable import Observable
@@ -28,9 +28,10 @@ class Resolver(Process, Observable):
         self.dome = dome
         self.kb_readable = dome.graph_readable_event
         self.automation_id = automation_id
+        self.bm_queue = dome.bm_queue
     
     def run(self):
-        print('Resolver Running')
+        self.bm_queue.put((self.name, 'start', time()))
         # Wait until the kb is readable and validate the trigger
         self.update(State.WAITING_READ_VALIDATE)
         self.kb_readable.wait()
@@ -39,6 +40,7 @@ class Resolver(Process, Observable):
         valid = verifyTrigger(main_trigger)
         if (not valid):
             self.update(State.ABORTED)
+            self.bm_queue.put((self.name, 'stop-aborted', time()))
             return
         
         # # Wait until the kb is readable again and prepare
@@ -60,6 +62,7 @@ class Resolver(Process, Observable):
         loop.run_until_complete(asyncio.gather(*tasks))
 
         self.update(State.FINISHED)
+        self.bm_queue.put((self.name, 'stop', time()))
     
     def update(self, state):
         self.state.update(state)

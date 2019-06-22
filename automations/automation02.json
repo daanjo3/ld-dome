@@ -1,31 +1,21 @@
 {
-    "label": "Test automation 2",
+    "label": "Kamerlamp when Banklamp",
     "isenabled": "True",
     "triggeredby": {
         "label": "Trigger lamp 1",
         "hascondition": [{
-            "label": "Nachtlamp aan",
-            "observes": "http://kadjanderman.com/resource/property/6527e722-5884-4aa4-9028-bb5f0402f191",
+            "label": "Banklamp aan",
+            "observes": "http://kadjanderman.com/resource/property/switch.sonoff_2df49f9dd-1b9a-4b66-b426-7c5bf46a7130",
             "target": "on",
-            "operatortype": "EQUALS"
+            "operatortype": "EQ"
         }],
-        "hassubtrigger": [{
-            "label": "Subtrigger",
-            "hascondition": [{
-                "label": "Chromecast uit",
-                "observes": "http://kadjanderman.com/resource/property/6eb3b92f-eb21-49de-9e77-d68a912342b6",
-                "target": "off",
-                "operatortype": "EQUALS"
-            }],
-            "hassubtrigger": [],
-            "operatortype": null
-        }],
-        "operatortype": "OR"
+        "hassubtrigger": [],
+        "operatortype": null
     },
     "performs": [
         {
             "label": "Turn on Kamerlamp",
-            "actuates": "http://kadjanderman.com/resource/property/d6cdd288-cc09-4bb8-bfc8-c83040e8cd72",
+            "actuates": "http://kadjanderman.com/resource/property/light.tradfri_bulb5fabe5c9-271a-4dec-977e-3ac9c6668aa0",
             "callservice": "turn_on"
         }
     ]

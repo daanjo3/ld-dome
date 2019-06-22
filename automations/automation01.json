@@ -1,21 +1,21 @@
 {
-    "label": "Test automation 1",
+    "label": "Banklamp on when rain==69",
     "isenabled": "True",
     "triggeredby": {
-        "label": "Trigger lamp 1",
+        "label": "Raintime",
         "hascondition": [{
-            "label": "Nachtlamp aan",
-            "observes": "http://kadjanderman.com/resource/property/switch.sonoff_262f01df1-a43f-4068-b884-70b4ecdd7cc1",
-            "target": "on",
-            "operatortype": "=="
+            "label": "It's raining",
+            "observes": "http://kadjanderman.com/resource/webproperty/53e43270-1acc-42f8-90c4-1cf5a86faba5",
+            "target": "69",
+            "operatortype": "EQ"
         }],
         "hassubtrigger": [],
-        "operatortype": null
+        "operatortype": "AND"
     },
     "performs": [
         {
-            "label": "Turn on Kamerlamp",
-            "actuates": "http://kadjanderman.com/resource/property/switch.sonoff_262f01df1-a43f-4068-b884-70b4ecdd7cc1",
+            "label": "Turn on Banklamp",
+            "actuates": "http://kadjanderman.com/resource/property/switch.sonoff_2df49f9dd-1b9a-4b66-b426-7c5bf46a7130",
             "callservice": "turn_on"
         }
     ]

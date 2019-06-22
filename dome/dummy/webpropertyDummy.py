@@ -1,10 +1,14 @@
-from dome.util.KnowledgeGraph import KnowledgeGraph
-from dome.config import DOME
+from dome.db.graph import Graph
+from dome.config import DOME, rdf
 
 def loadWebProperty():
-    webproperties = KnowledgeGraph.get_entities_by_type(DOME.WebProperty)
-    if (len(webproperties) > 0):
-        print('[TEST] No WebProperty created, already present')
+    webproperties = Graph.getModel().get_sources(rdf.type, DOME.WebProperty)
+    wp_len = 0
+    for wp in webproperties:
+        print('got wp')
+        wp_len += 1
+    print(wp_len)
+    if (wp_len > 0):
         return False
     
     print('[TEST] Creating WebProperty')
@@ -16,4 +20,4 @@ def loadWebProperty():
     property_ref = 'http://example.org/ns#precipitation'
     poll = 1
 
-    KnowledgeGraph.add_webproperty(label, host, resource_ref, property_ref, poll, graph=graph)
+    Graph.addWebProperty(label, host, resource_ref, property_ref, poll, graph=graph)

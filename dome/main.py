@@ -13,20 +13,24 @@ from dome.websocket.WebUpdater import WebUpdater
 from dome.parser.ParserService import *
 from dome.automations.AutomationService import AutomationService
 
-# from dome.dummy.webpropertyDummy import loadWebProperty
+from dome.lib.benchmark import BenchMark
+
+from dome.dummy.webpropertyDummy import loadWebProperty
 # from dome.dummy.automationDummy import loadAutomation
 # from dome.dummy.wpautomationDummy import loadWPAutomation
 
 class DomeMain():
     def __init__(self):
         self.manager = Manager()
-        # Create global event
+        # Create global events
         self.graph_readable_event = self.manager.Event()
         self.graph_readable_event.set()
+        self.loader_finished = self.manager.Event()
 
         # Create global queues
         self.parser_queue = self.manager.Queue()
         self.automation_queue = self.manager.Queue()
+        self.bm_queue = self.manager.Queue()
 
         # Create global database access
         # self.graph = self.manager.Graph()
@@ -38,6 +42,15 @@ class DomeMain():
 
 # Load the general manager
 dome = DomeMain()
+bm = BenchMark(dome, time.time())
+bm.start()
+
+# loadWebProperty()
+
+# Create services
+web_updater = WebUpdater(dome)
+am = AutomationService(dome)
+ha_updater = HAUpdater(dome.parser_queue)
 
 # Start ParserService
 pm = ParserService(dome)
@@ -45,26 +58,28 @@ pm.register(dome.log)
 pm.start()
 
 # Loading dummies for testing
-# loadWebProperty()
 # loadAutomation()
 # loadWPAutomation()
 
 # Start HALoader
+dome.bm_queue.put(('loader', 'start', time.time()))
 loop = asyncio.get_event_loop()
 loop.run_until_complete(load(dome.parser_queue))
 
-# Start WebUpdater
-web_updater = WebUpdater(dome)
-web_updater.start()
+dome.loader_finished.wait()
+dome.bm_queue.put(('loader', 'stop', time.time()))
 
 # Start Automation Manager
-am = AutomationService(dome)
 am.register(dome.log)
 am.start()
 
-# Start HAUpdater
-ha_updater = HAUpdater(dome.parser_queue)
+# Start HAUpdate
 ha_updater.start()
+
+time.sleep(3)
+
+# Start WebUpdater
+web_updater.start()
 
 # Keep this thread alive while any child is alive
 while(ha_updater.is_alive()):

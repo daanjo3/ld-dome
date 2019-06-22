@@ -52,7 +52,7 @@ def validate(truths, op):
     return None
 
 def compare(value, op, target):
-    if (op == '=='):
+    if (op == 'EQ'):
         return str(value) == str(target)
     # TODO extend for multiple datatypes and operators
 
