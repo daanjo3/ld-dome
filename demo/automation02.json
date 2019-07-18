@@ -1,0 +1,22 @@
+{
+    "label": "Kamerlamp when Banklamp",
+    "isenabled": "True",
+    "triggeredby": {
+        "label": "Trigger lamp 1",
+        "hascondition": [{
+            "label": "Banklamp aan",
+            "observes": "http://kadjanderman.com/resource/property/switch.sonoff_2cc2c8733-5dc5-4e6c-89ce-3322c20ecfd2",
+            "target": "on",
+            "operatortype": "EQ"
+        }],
+        "hassubtrigger": [],
+        "operatortype": null
+    },
+    "performs": [
+        {
+            "label": "Turn on Kamerlamp",
+            "actuates": "http://kadjanderman.com/resource/property/light.tradfri_bulb59d618ed-7d7d-4a74-b646-6ae1a8445361",
+            "callservice": "turn_on"
+        }
+    ]
+}

@@ -18,3 +18,5 @@ dome\.egg-info/
 dist/
 
 build/
+
+*.pyc

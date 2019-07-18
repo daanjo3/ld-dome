@@ -1,0 +1,22 @@
+{
+    "label": "Banklamp on when rain==69",
+    "isenabled": "True",
+    "triggeredby": {
+        "label": "Raintime",
+        "hascondition": [{
+            "label": "It's raining",
+            "observes": "http://kadjanderman.com/resource/webproperty/84c10078-222f-4bb6-911d-c6bbbd2aea78",
+            "target": "69",
+            "operatortype": "EQ"
+        }],
+        "hassubtrigger": [],
+        "operatortype": null
+    },
+    "performs": [
+        {
+            "label": "Turn on Banklamp",
+            "actuates": "http://kadjanderman.com/resource/property/switch.sonoff_2cc2c8733-5dc5-4e6c-89ce-3322c20ecfd2",
+            "callservice": "turn_on"
+        }
+    ]
+}
